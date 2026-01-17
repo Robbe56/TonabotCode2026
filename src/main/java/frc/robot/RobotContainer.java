@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
+import frc.robot.commands.ManualShootCommand;
+
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -36,12 +38,17 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-
     private final ShooterSubsystem shooter = new ShooterSubsystem();
+
+    private final ManualShootCommand manualShoot;
 
     public RobotContainer() {
         configureBindings();
+        manualShoot = new ManualShootCommand(shooter, joystick);
     }
+
+    
+
 
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -76,7 +83,9 @@ public class RobotContainer {
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        joystick.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        joystick.leftBumper().whileTrue(manualShoot);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
