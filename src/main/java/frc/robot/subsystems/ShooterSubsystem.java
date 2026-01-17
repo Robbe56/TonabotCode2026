@@ -3,10 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -17,15 +19,24 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax ShooterMotor;
 
+  private SparkClosedLoopController ShooterController = ShooterMotor.getClosedLoopController();
+
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
+ 
 
   public ShooterSubsystem() {
     ShooterMotor = new SparkMax(21, MotorType.kBrushless);
-
+  
+//set PID gains for shooter
+ShooterMotorConfig.closedLoop
+.p(0.008)
+.i(0)
+.d(0)
+.outputRange(0, 3000);
 
   }
   public void spinShooter(double ShooterSpeed) {
-    ShooterMotor.set(ShooterSpeed);
+    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
   }
   @Override
   public void periodic() {
