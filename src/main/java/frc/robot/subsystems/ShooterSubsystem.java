@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -19,20 +20,22 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax ShooterMotor;
 
-  private SparkClosedLoopController ShooterController = ShooterMotor.getClosedLoopController();
+  private final SparkClosedLoopController ShooterController;
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
  
 
   public ShooterSubsystem() {
     ShooterMotor = new SparkMax(21, MotorType.kBrushless);
+    ShooterController = ShooterMotor.getClosedLoopController();
   
 //set PID gains for shooter
 ShooterMotorConfig.closedLoop
-.p(0.008)
+.p(0.0008)
 .i(0)
-.d(0)
-.outputRange(0, 3000);
+.d(0.000015)
+.outputRange(0, 1500);
+
 
   }
   public void spinShooter(double ShooterSpeed) {

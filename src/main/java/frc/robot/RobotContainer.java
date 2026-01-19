@@ -43,8 +43,9 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
 
     public RobotContainer() {
-        configureBindings();
         manualShoot = new ManualShootCommand(shooter, joystick);
+        configureBindings();
+       
     }
 
     
@@ -87,7 +88,7 @@ public class RobotContainer {
         // Reset the field-centric heading on left bumper press.
         joystick.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        joystick.leftBumper().whileTrue(manualShoot);
+        joystick.leftBumper().onTrue(manualShoot);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
