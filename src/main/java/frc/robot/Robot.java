@@ -4,29 +4,49 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.HootAutoReplay;
+
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel;
+
+
+
+
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
+    
+
+   
+
+    
+
     private final RobotContainer m_robotContainer;
 
+      
+
+      
+    
+      
     /* log and replay timestamp and joystick data */
-    private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
-        .withTimestampReplay()
-        .withJoystickReplay();
+  
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+       
+
     }
 
     @Override
     public void robotPeriodic() {
-        m_timeAndJoystickReplay.update();
+        
         CommandScheduler.getInstance().run(); 
     }
 
