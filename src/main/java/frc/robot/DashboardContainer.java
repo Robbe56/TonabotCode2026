@@ -17,16 +17,16 @@ public class DashboardContainer {
     private NetworkTableEntry batteryEntry;
 
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    
 
     public void DashboardCreator(){
             table = inst.getTable("SmartDashboard");
 
         table.getEntry("ShooterSpeed").setDefaultDouble(0.0);
         table.getEntry("HangPosition").setDefaultDouble(0.0);
-        
     }
     public void DashboardUpdater(){
-        table.getEntry("ShooterSpeed").setDouble(0);
+      
     }
 
 

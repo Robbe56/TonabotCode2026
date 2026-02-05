@@ -34,7 +34,7 @@ public class ManualShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if (operatorController.getHID().getLeftBumperButton() == true){
+     if (operatorController.getHID().getAButton()){
       shooter.spinShooter(1500);
     }
     else shooter.spinShooter(0);

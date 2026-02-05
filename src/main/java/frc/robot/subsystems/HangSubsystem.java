@@ -18,32 +18,31 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class HangSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
-  private SparkMax ShooterMotor;
+  private SparkMax HangMotor;
 
-  private SparkClosedLoopController ShooterController;
+  private SparkClosedLoopController HangController;
 
-  SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
+  SparkMaxConfig HangMotorConfig = new SparkMaxConfig();
  
 
-  public ShooterSubsystem() {
-    ShooterMotor = new SparkMax(21, MotorType.kBrushless);
-    ShooterController = ShooterMotor.getClosedLoopController();
+  public HangSubsystem() {
+    HangMotor = new SparkMax(21, MotorType.kBrushless);
+    
+    HangController = HangMotor.getClosedLoopController();
+    
   
-//set PID gains for shooter
-ShooterMotorConfig.closedLoop
-.p(0.001)
-.i(0)
-.d(0.0000)
-.outputRange(0, 3000);
+//set IdleMode for Hang
+HangMotorConfig.idleMode(IdleMode.kBrake);
 
-ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+HangMotor.configure(HangMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }
-  public void spinShooter(double ShooterSpeed) {
-    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
-   
+  public void MoveHanger(double TopPosition,double BottomPosition) {
+    if ((HangController.getMAXMotionSetpointPosition() <= TopPosition) ){
+    
+  }
   }
   @Override
   public void periodic() {
