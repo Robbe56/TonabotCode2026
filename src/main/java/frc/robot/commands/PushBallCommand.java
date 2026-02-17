@@ -6,46 +6,50 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import com.revrobotics.spark.SparkBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ManualShootCommand extends Command {
+public class PushBallCommand extends Command {
 
-  public final ShooterSubsystem shooter;
+  public final IntakeSubsystem intake;
   public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
-  public ManualShootCommand(ShooterSubsystem m_spinShooter, CommandXboxController m_operatorController) {
+  public PushBallCommand(IntakeSubsystem Intake, CommandXboxController m_operatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooter = m_spinShooter;
+    intake = Intake;
     operatorController = m_operatorController;
     
 
-    addRequirements(shooter);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.spinShooter(0);
+    intake.spinPusher();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if (operatorController.getHID().getYButton()){
-      shooter.spinShooter(1500);
-    }
-    else shooter.spinShooter(0);
+     
+      intake.spinPusher();
+      
+    
+    //else if (operatorController.getHID().getAButton()) {
+    //  intake.spinIntake(-1);
+    //}
+  
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.spinShooter(0);
+    intake.stopPusher();
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

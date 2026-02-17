@@ -6,44 +6,50 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.HangSubsystem;
 import com.revrobotics.spark.SparkBase;
+import frc.robot.Constants.HangConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ManualShootCommand extends Command {
+public class ManualHangCommand extends Command {
 
-  public final ShooterSubsystem shooter;
+  public final HangSubsystem hang;
   public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
-  public ManualShootCommand(ShooterSubsystem m_spinShooter, CommandXboxController m_operatorController) {
+  public ManualHangCommand(HangSubsystem m_spinHang, CommandXboxController m_operatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooter = m_spinShooter;
+    hang = m_spinHang;
     operatorController = m_operatorController;
     
 
-    addRequirements(shooter);
+    addRequirements(hang);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.spinShooter(0);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+  
   public void execute() {
-     if (operatorController.getHID().getYButton()){
-      shooter.spinShooter(1500);
+     if (operatorController.getHID().getLeftBumperButton()){//down
+      hang.ManualHang(1);
     }
-    else shooter.spinShooter(0);
+    else if (operatorController.getHID().getRightBumper()) {//up
+      hang.ManualHang(-1);
+    }
+    else {hang.ManualHang(0);}
+
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.spinShooter(0);
+    hang.ManualHang(0);
   }
 
   // Returns true when the command should end.
