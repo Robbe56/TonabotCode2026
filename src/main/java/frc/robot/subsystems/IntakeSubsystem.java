@@ -26,15 +26,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     IntakeMotor = new SparkMax(Constants.IntakeConstants.intakeMotorID, MotorType.kBrushless);
-  
-    
-  
-//set PID gains for shooter
-//IntakeMotorConfig.closedLoop;
 
-IntakeMotor.configure(IntakeMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    IntakeMotor.configure(IntakeMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }
+
   public void spinIntake(double Direction) {
     IntakeMotor.set(IntakeConstants.IntakeSpeed*Direction);
    

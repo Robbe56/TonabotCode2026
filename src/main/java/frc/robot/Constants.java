@@ -24,7 +24,7 @@ public final class Constants {
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;
-        public static final double HangSpeed = 0.5; //set default shooter Speed
+        public static final double HangSpeed = 0.5; //set default climber retract Speed
         public static final double ManualHangSpeed = 0.2; //slower speed incase
         public static final double upLimit = 20; //encoder value when hook is at 30 inches
         

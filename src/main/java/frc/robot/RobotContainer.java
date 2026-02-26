@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
 import frc.robot.commands.ManualHangCommand;
@@ -51,14 +50,13 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
-    private final PushBallCommand pushBall;
 
 
     public RobotContainer() {
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
-        manualIntake = new ManualIntakeCommand(intake, operatorXbox);
+        manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
-        pushBall = new PushBallCommand(intake, operatorXbox);
+        
         configureBindings();
        
     }
@@ -106,11 +104,6 @@ public class RobotContainer {
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        operatorXbox.y().onTrue(manualShoot);
-        operatorXbox.leftBumper().onTrue(manualHang);
-        operatorXbox.rightBumper().onTrue(manualHang);
-        operatorXbox.a().onTrue(manualIntake);
-        operatorXbox.b().onTrue(pushBall);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

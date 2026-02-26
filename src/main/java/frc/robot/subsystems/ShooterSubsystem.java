@@ -65,9 +65,14 @@ ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, Pers
    
   }
 
-    public void FeedBalls(double hopperSpeed, double conveyorSpeed){
-    spinnerMotor.set(hopperSpeed);
-    conveyorMotor.set(conveyorSpeed);
+    public void FeedBalls(){
+    spinnerMotor.set(Constants.ShooterConstants.spinnerSpeed);
+    conveyorMotor.set(Constants.ShooterConstants.conveyorSpeed);
+  }
+
+  public void Unjam(){
+    spinnerMotor.set(-Constants.ShooterConstants.spinnerSpeed);
+    conveyorMotor.set(-Constants.ShooterConstants.conveyorSpeed);
   }
 
 
