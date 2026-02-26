@@ -19,11 +19,13 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax ShooterMotor;
+  private SparkMax TurretMotor;
   private SparkMax spinnerMotor;
   private SparkMax conveyorMotor;
   private SparkMax turretMotor;
 
   private SparkClosedLoopController ShooterController;
+  private SparkClosedLoopController TurretController;
   private SparkClosedLoopController spinninerController;
   private SparkClosedLoopController conveyorController;
   private SparkClosedLoopController turretController;
@@ -63,6 +65,10 @@ ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, Pers
   public void spinShooter(double ShooterSpeed) {
     ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
    
+  }
+
+  public void spinTurret(double JoystickDirection){
+    TurretMotor.set(JoystickDirection);
   }
 
     public void FeedBalls(){

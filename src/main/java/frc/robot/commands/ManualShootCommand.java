@@ -43,6 +43,9 @@ public class ManualShootCommand extends Command {
     else if (operatorController.getHID().getBButton()){
       shooter.Unjam();
     }
+    else if (operatorController.getRightX()!=0){
+      shooter.spinTurret(operatorController.getRightX());
+    }
     else {
       shooter.stopConveyor();
       shooter.stopHopper();

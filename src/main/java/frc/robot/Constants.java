@@ -20,7 +20,7 @@ public final class Constants {
         public static final int conveyorMotorID = 25;
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
-        public static final double spinnerSpeed = 0.3; //speed for spinner plate with holes
+        public static final double spinnerSpeed = -0.3; //speed for spinner plate with holes
         public static final double conveyorSpeed = -0.9; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //shooting Speed
         public static final double Turnspeed = 0.4; ///Set rotation speed of turret

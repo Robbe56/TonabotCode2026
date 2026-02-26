@@ -3,31 +3,29 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.AutoMode;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.HangSubsystem;
-import com.revrobotics.spark.SparkBase;
-import frc.robot.Constants.HangConstants;
-
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.HangSubsystem;
+import frc.robot.Constants;
+
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoHang extends Command {
 
-  public final HangSubsystem hang;
+  public final HangSubsystem hanger;
   public final Timer timer;
   
 
   /** Creates a new ManualShootCommand. */
-  public AutoHang(HangSubsystem m_spinHang) {
+  public AutoHang(HangSubsystem m_hang) {
     // Use addRequirements() here to declare subsystem dependencies.
-    hang = m_spinHang;
+    hanger = m_hang;
     timer = new Timer();
     
     
 
-    addRequirements(hang);
+    addRequirements(hanger);
   }
 
   // Called when the command is initially scheduled.
@@ -41,12 +39,12 @@ public class AutoHang extends Command {
   
   public void execute() {
      if (timer.get() <1){//else
-      hang.ManualHang(-1);//up
+      hanger.AutoClimber(-1);//up
     }
     else if ((timer.get()<3)) {//down
-      hang.ManualHang(1);
+      hanger.AutoClimber(1);
     }
-    else {hang.ManualHang(0);}
+    else {hanger.AutoClimber(0);}
 
 
   }
@@ -56,12 +54,12 @@ public class AutoHang extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
-    hang.ManualHang(0);
+    hanger.AutoClimber(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get()>HangConstants.Hangtime;
+    return timer.get()>Constants.HangConstants.Hangtime;
   }
 }

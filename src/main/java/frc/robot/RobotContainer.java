@@ -107,11 +107,7 @@ public class RobotContainer {
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        operatorXbox.y().onTrue(manualShoot);
-        operatorXbox.leftBumper().onTrue(manualHang);
-        operatorXbox.rightBumper().onTrue(manualHang);
-        driverXbox.a().onTrue(manualIntake);
-        //operatorXbox.b().onTrue(pushBall);
+      
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
