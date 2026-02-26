@@ -55,7 +55,7 @@ public class RobotContainer {
 
 
     public RobotContainer() {
-        manualShoot = new ManualShootCommand(shooter,intake, operatorXbox);
+        manualShoot = new ManualShootCommand(shooter, operatorXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
         //pushBall = new PushBallCommand(intake, operatorXbox);
 

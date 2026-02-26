@@ -3,27 +3,21 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax IntakeMotor;
-  private SparkMax StorageMotor;
+  
 
  
 
@@ -31,23 +25,30 @@ public class IntakeSubsystem extends SubsystemBase {
  
 
   public IntakeSubsystem() {
-    IntakeMotor = new SparkMax(23, MotorType.kBrushless);
+    IntakeMotor = new SparkMax(Constants.IntakeConstants.intakeMotorID, MotorType.kBrushless);
 
-    StorageMotor = new SparkMax(24, MotorType.kBrushless);//
-    
-  
-//set PID gains for shooter
-//IntakeMotorConfig.closedLoop;
-
-IntakeMotor.configure(IntakeMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    IntakeMotor.configure(IntakeMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
 
   }
+
   public void spinIntake(double Direction) {
     IntakeMotor.set(IntakeConstants.IntakeSpeed*Direction);
    
   }
-  
-  
+
+
+
+    public void intakeActive(){
+    IntakeMotor.set(Constants.IntakeConstants.IntakeSpeed); //run motor at set %
+  }
+
+  public void spitOut(){
+    IntakeMotor.set(-Constants.IntakeConstants.IntakeSpeed); //run motor at negative % of intake speed
+  }
+
+  public void intakeRest(){
+    IntakeMotor.stopMotor();
+  }
 
   @Override
   public void periodic() {

@@ -6,24 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
 import frc.robot.subsystems.HangSubsystem;
-import com.revrobotics.spark.SparkBase;
-import frc.robot.Constants.HangConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualHangCommand extends Command {
 
-  public final HangSubsystem hang;
+  public final HangSubsystem hanger;
   public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
-  public ManualHangCommand(HangSubsystem m_spinHang, CommandXboxController m_operatorController) {
+  public ManualHangCommand(HangSubsystem m_hanger, CommandXboxController m_operatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
-    hang = m_spinHang;
+    hanger = m_hanger;
     operatorController = m_operatorController;
     
 
-    addRequirements(hang);
+    addRequirements(hanger);
   }
 
   // Called when the command is initially scheduled.
@@ -35,21 +34,21 @@ public class ManualHangCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   
   public void execute() {
-     if (operatorController.getHID().getLeftBumperButton()){//down
-      hang.ManualHang(1);
+     if (operatorController.getHID().getAButton()){//down
+      hanger.ClimberManualControl(-Constants.HangConstants.HangSpeed);
     }
-    else if (operatorController.getHID().getRightBumper()) {//up
-      hang.ManualHang(-1);
+
+    else if (operatorController.getHID().getYButton()) {//up
+    hanger.ClimberManualControl(Constants.HangConstants.HangSpeed);
     }
-    else {hang.ManualHang(0);}
 
-
+    else hanger.StopClimber();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hang.ManualHang(0);
+  hanger.StopClimber();;
   }
 
   // Returns true when the command should end.

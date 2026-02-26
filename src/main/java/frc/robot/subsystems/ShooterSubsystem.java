@@ -4,45 +4,51 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax ShooterMotor;
-  private SparkMax StorageMotor;
-  private SparkMax TurretMotor;
-  private VictorSP FeedMotor;
+  private SparkMax spinnerMotor;
+  private SparkMax conveyorMotor;
+  private SparkMax turretMotor;
+
   private SparkClosedLoopController ShooterController;
+  private SparkClosedLoopController spinninerController;
+  private SparkClosedLoopController conveyorController;
+  private SparkClosedLoopController turretController;
   
+  RelativeEncoder shooterEncoder;
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
  
 
   public ShooterSubsystem() {
-    ShooterMotor = new SparkMax(21, MotorType.kBrushless);
-      StorageMotor = new SparkMax(24, MotorType.kBrushless);
-    TurretMotor = new SparkMax(25, MotorType.kBrushless);
-    FeedMotor = new VictorSP(26);
+    ShooterMotor = new SparkMax(Constants.ShooterConstants.shooterMotorID, MotorType.kBrushless);
     ShooterController = ShooterMotor.getClosedLoopController();
+
+    spinnerMotor = new SparkMax(Constants.ShooterConstants.spinnerMotorID, MotorType.kBrushless);
+    spinninerController = spinnerMotor.getClosedLoopController();
+
+    conveyorMotor = new SparkMax(Constants.ShooterConstants.conveyorMotorID, MotorType.kBrushless);
+    conveyorController = conveyorMotor.getClosedLoopController();
+
+    turretMotor = new SparkMax(Constants.ShooterConstants.turretMotorID, MotorType.kBrushless);
+    turretController = turretMotor.getClosedLoopController();
+
+    shooterEncoder = ShooterMotor.getEncoder();
+
+
   
 //set PID gains for shooter
 ShooterMotorConfig.closedLoop
@@ -55,25 +61,37 @@ ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, Pers
 
   }
   public void spinShooter(double ShooterSpeed) {
-    //ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
-    StorageMotor.set(IntakeConstants.PusherSpeed);
-    FeedMotor.set(IntakeConstants.PusherSpeed);
+    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
    
   }
-  public void spinTurret(double Direction){
-    TurretMotor.set(Direction*ShooterConstants.Turnspeed);
+
+    public void FeedBalls(){
+    spinnerMotor.set(Constants.ShooterConstants.spinnerSpeed);
+    conveyorMotor.set(Constants.ShooterConstants.conveyorSpeed);
   }
-  public void reverseFeed(){
-    StorageMotor.set(-IntakeConstants.PusherSpeed);
-    FeedMotor.set(-IntakeConstants.PusherSpeed);
+
+  public void Unjam(){
+    spinnerMotor.set(-Constants.ShooterConstants.spinnerSpeed);
+    conveyorMotor.set(-Constants.ShooterConstants.conveyorSpeed);
   }
-  
-  public void stopFeed(){
-    StorageMotor.stopMotor();
-    FeedMotor.stopMotor();
+
+
+  public void stopHopper(){
+    spinnerMotor.stopMotor();
   }
+
+  public void stopConveyor(){
+    conveyorMotor.stopMotor();
+  }
+
+  public void stopShooter(){
+    ShooterMotor.stopMotor();
+  }
+
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
   }
 }
