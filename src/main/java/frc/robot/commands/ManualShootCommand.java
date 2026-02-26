@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ShooterSubsystem;
+
 import com.revrobotics.spark.SparkBase;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ManualShootCommand extends Command {
 
   public final ShooterSubsystem shooter;
+
   public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
@@ -20,6 +22,7 @@ public class ManualShootCommand extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     shooter = m_spinShooter;
     operatorController = m_operatorController;
+    
     
 
     addRequirements(shooter);
@@ -37,13 +40,17 @@ public class ManualShootCommand extends Command {
      if (operatorController.getHID().getYButton()){
       shooter.spinShooter(1500);
     }
-    else shooter.spinShooter(0);
+    else {
+      shooter.spinShooter(0);
+      shooter.stopFeed();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.spinShooter(0);
+    shooter.stopFeed();
   }
 
   // Returns true when the command should end.

@@ -16,6 +16,7 @@ public final class Constants {
     }
     public static final class ShooterConstants{
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
+        public static final double Turnspeed = 0.4; ///Set rotation speed of turret
     }
     public static final class HangConstants{
         public static final double HangSpeed = 0.5; //set default shooter Speed
@@ -23,5 +24,11 @@ public final class Constants {
         
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom
+
+        //Automode Constants
+        public static final int Hangtime = 6;
+    }
+    public static final class LimelightConstants{
+    public static final double hub_tag_height = 10;
     }
 }

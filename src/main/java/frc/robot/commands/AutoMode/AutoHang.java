@@ -2,57 +2,66 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutoMode;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.HangSubsystem;
 import com.revrobotics.spark.SparkBase;
+import frc.robot.Constants.HangConstants;
+
+import edu.wpi.first.wpilibj.Timer;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PushBallCommand extends Command {
+public class AutoHang extends Command {
 
-  public final IntakeSubsystem intake;
-  public final CommandXboxController operatorController;
+  public final HangSubsystem hang;
+  public final Timer timer;
+  
 
   /** Creates a new ManualShootCommand. */
-  public PushBallCommand(IntakeSubsystem Intake, CommandXboxController m_operatorController) {
+  public AutoHang(HangSubsystem m_spinHang) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intake = Intake;
-    operatorController = m_operatorController;
+    hang = m_spinHang;
+    timer = new Timer();
+    
     
 
-    addRequirements(intake);
+    addRequirements(hang);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.spinPusher();
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-     
-      intake.spinPusher();
-      
-    
-    //else if (operatorController.getHID().getAButton()) {
-    //  intake.spinIntake(-1);
-    //}
   
+  public void execute() {
+     if (timer.get() <1){//else
+      hang.ManualHang(-1);//up
+    }
+    else if ((timer.get()<3)) {//down
+      hang.ManualHang(1);
+    }
+    else {hang.ManualHang(0);}
+
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.stopPusher();
+    timer.stop();
+    timer.reset();
+    hang.ManualHang(0);
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get()>HangConstants.Hangtime;
   }
 }

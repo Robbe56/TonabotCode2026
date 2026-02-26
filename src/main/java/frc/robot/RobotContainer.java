@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
 import frc.robot.commands.ManualHangCommand;
-import frc.robot.commands.PushBallCommand;
+
 
 import frc.robot.generated.TunerConstants;
 
@@ -51,14 +51,15 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
-    private final PushBallCommand pushBall;
+    //private final PushBallCommand pushBall;
 
 
     public RobotContainer() {
-        manualShoot = new ManualShootCommand(shooter, operatorXbox);
-        manualIntake = new ManualIntakeCommand(intake, operatorXbox);
+        manualShoot = new ManualShootCommand(shooter,intake, operatorXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
-        pushBall = new PushBallCommand(intake, operatorXbox);
+        //pushBall = new PushBallCommand(intake, operatorXbox);
+
+        manualIntake = new ManualIntakeCommand(intake, driverXbox);
         configureBindings();
        
     }
@@ -109,8 +110,8 @@ public class RobotContainer {
         operatorXbox.y().onTrue(manualShoot);
         operatorXbox.leftBumper().onTrue(manualHang);
         operatorXbox.rightBumper().onTrue(manualHang);
-        operatorXbox.a().onTrue(manualIntake);
-        operatorXbox.b().onTrue(pushBall);
+        driverXbox.a().onTrue(manualIntake);
+        //operatorXbox.b().onTrue(pushBall);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

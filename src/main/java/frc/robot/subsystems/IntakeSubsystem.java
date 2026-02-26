@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax IntakeMotor;
-  private SparkMax PusherMotor;
+  private SparkMax StorageMotor;
 
  
 
@@ -32,7 +32,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     IntakeMotor = new SparkMax(23, MotorType.kBrushless);
-    PusherMotor = new SparkMax(24, MotorType.kBrushless);
+
+    StorageMotor = new SparkMax(24, MotorType.kBrushless);//
     
   
 //set PID gains for shooter
@@ -45,12 +46,8 @@ IntakeMotor.configure(IntakeMotorConfig,ResetMode.kNoResetSafeParameters, Persis
     IntakeMotor.set(IntakeConstants.IntakeSpeed*Direction);
    
   }
-  public void spinPusher(){
-    PusherMotor.set(IntakeConstants.PusherSpeed);
-  }
-  public void stopPusher(){
-    PusherMotor.stopMotor();
-  }
+  
+  
 
   @Override
   public void periodic() {

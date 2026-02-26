@@ -17,6 +17,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import frc.robot.Constants.HangConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,7 +31,8 @@ public class HangSubsystem extends SubsystemBase {
   private SparkMax HangMotor;
   DigitalInput BottomSwitch;
   private SparkClosedLoopController HangController;
-
+ NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry LimitSwitch = table.getEntry("");
  
 
   SparkMaxConfig HangMotorConfig = new SparkMaxConfig();
@@ -54,7 +58,7 @@ HangMotor.configure(HangMotorConfig,ResetMode.kNoResetSafeParameters, PersistMod
       HangMotor.stopMotor();
     }
     else {
-      HangMotor.set(-HangConstants.HangSpeed*Direction);
+      HangMotor.set(HangConstants.HangSpeed*Direction);
     }
     
     
@@ -62,5 +66,6 @@ HangMotor.configure(HangMotorConfig,ResetMode.kNoResetSafeParameters, PersistMod
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
   }
 }

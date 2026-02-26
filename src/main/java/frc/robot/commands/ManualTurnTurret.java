@@ -6,52 +6,43 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import com.revrobotics.spark.SparkBase;
+import frc.robot.Constants.HangConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ManualIntakeCommand extends Command {
+public class ManualTurnTurret extends Command {
 
-  public final IntakeSubsystem intake;
+  public final ShooterSubsystem shoot;
   public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
-  public ManualIntakeCommand(IntakeSubsystem Intake, CommandXboxController m_driverController) {
+  public ManualTurnTurret(ShooterSubsystem m_spinTurret, CommandXboxController m_operatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intake = Intake;
-    operatorController = m_driverController;
+    shoot = m_spinTurret;
+    operatorController = m_operatorController;
     
 
-    addRequirements(intake);
+    addRequirements(shoot);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.spinIntake(0);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override
+  
   public void execute() {
-     if (operatorController.getHID().getAButton()){
-      intake.spinIntake(1);
-      
-    }
-    //else if (operatorController.getHID().getAButton()) {
-    //  intake.spinIntake(-1);
-    //}
-    else {
-      intake.spinIntake(0);
-
-    }
+     shoot.spinTurret(operatorController.getRightX());
 
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.spinIntake(0);
+    
   }
 
   // Returns true when the command should end.
