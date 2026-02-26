@@ -35,11 +35,11 @@ public class ManualHangCommand extends Command {
   
   public void execute() {
      if (operatorController.getHID().getAButton()){//down
-      hanger.ClimberManualControl(Constants.HangConstants.HangSpeed);
+      hanger.ClimberManualControl(-Constants.HangConstants.HangSpeed);
     }
 
     else if (operatorController.getHID().getYButton()) {//up
-    hanger.ClimberManualControl(-Constants.HangConstants.HangSpeed);
+    hanger.ClimberManualControl(Constants.HangConstants.HangSpeed);
     }
 
     else hanger.StopClimber();

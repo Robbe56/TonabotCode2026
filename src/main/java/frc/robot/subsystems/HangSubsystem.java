@@ -55,10 +55,10 @@ public class HangSubsystem extends SubsystemBase {
     }}
 
   public void ClimberManualControl(double climberCommandSpeed){
-     if(climberCommandSpeed > 0 && BottomSwitch.get() == false){ //dont move down if pushing lower limit switch
+     if(climberCommandSpeed < 0 && BottomSwitch.get() == false){ //dont move down if pushing lower limit switch
       HangMotor.stopMotor();
     }
-    else if(climberCommandSpeed < 0 && -hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
+    else if(climberCommandSpeed > 0 && hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
       HangMotor.stopMotor();
     }
     else{
