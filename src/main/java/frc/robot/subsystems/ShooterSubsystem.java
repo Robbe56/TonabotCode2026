@@ -32,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkClosedLoopController turretController;
   
   RelativeEncoder shooterEncoder;
+  RelativeEncoder turrentEncoder;
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
   SparkMaxConfig SpinnerConfig = new SparkMaxConfig();
@@ -52,7 +53,8 @@ public class ShooterSubsystem extends SubsystemBase {
     turretMotor = new SparkMax(Constants.ShooterConstants.turretMotorID, MotorType.kBrushless);
     turretController = turretMotor.getClosedLoopController();
 
-    shooterEncoder = ShooterMotor.getEncoder();
+    shooterEncoder = ShooterMotor.getEncoder(); //get encoder value from NEO
+    turrentEncoder = turretMotor.getEncoder(); //get encoder value from NEO
 
 
   
@@ -99,11 +101,26 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
     ShooterMotor.stopMotor();
   }
 
+  public void spinTurret(double turretCommandSpeed){
+    if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
+      turretMotor.stopMotor();
+    }
+    else if (turretCommandSpeed > 0 && turrentEncoder.getPosition() > Constants.ShooterConstants.turretEnd){
+      turretMotor.stopMotor();
+    }
+    else turretMotor.set(turretCommandSpeed);
+  }
+
+  public void ResetTurretEncoder(){
+    turretMotor.getEncoder().setPosition(0); //reset turret encoder if correct buttons are pressed
+  }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
+    SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
     
   }
 }

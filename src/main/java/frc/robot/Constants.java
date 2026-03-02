@@ -26,6 +26,8 @@ public final class Constants {
         public static final double SpinRateLimit = 2.5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
+
+        public static final double turretEnd = 50; //limit for how far turret can rotate
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;

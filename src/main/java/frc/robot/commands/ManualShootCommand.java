@@ -47,6 +47,12 @@ public class ManualShootCommand extends Command {
       shooter.stopConveyor();
       shooter.stopHopper();
     }
+
+  shooter.spinTurret(operatorController.getLeftX()); //manually control turret with left joystick
+
+  if (operatorController.getHID().getStartButton() && operatorController.getHID().getBackButton()){ //if pressing both start and back at the same time reset turret encoder
+    shooter.ResetTurretEncoder();
+  }
   }
 
   // Called once the command ends or is interrupted.
