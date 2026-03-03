@@ -15,6 +15,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import frc.robot.Constants;
 import frc.robot.Constants.HangConstants;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,6 +26,7 @@ public class HangSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax HangMotor;
   private SparkClosedLoopController HangController;
+ 
 
   DigitalInput BottomSwitch;
   RelativeEncoder hangEncoder;
@@ -35,6 +39,10 @@ public class HangSubsystem extends SubsystemBase {
     BottomSwitch = new DigitalInput(HangConstants.BottomLimit_SwitchIO);
 
     HangController = HangMotor.getClosedLoopController();
+
+      NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable table = inst.getTable("hi");
+
     
   
     //set IdleMode for Hang
@@ -43,17 +51,8 @@ public class HangSubsystem extends SubsystemBase {
     hangEncoder = HangMotor.getEncoder(); //get encoder value from NEO
 
   }
-  public void MoveHanger(double Position) {
-    HangController.setSetpoint(Position, ControlType.kPosition);
-  }
-  public void ManualHang(double Direction){
-    if ((Direction == 1)&& (BottomSwitch.get() == false)){
-      HangMotor.stopMotor();
-    }
-    else {
-      HangMotor.set(-HangConstants.HangSpeed*Direction);
-    }}
-
+ 
+  
   public void ClimberManualControl(double climberCommandSpeed){
      if(climberCommandSpeed < 0 && BottomSwitch.get() == false){ //dont move down if pushing lower limit switch
       HangMotor.stopMotor();
@@ -103,3 +102,4 @@ public class HangSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Climber Current Draw", HangMotor.getOutputCurrent()); 
   }
 }
+

@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax IntakeMotor;
-  
+  private SparkMax PusherMotor;
 
  
 
@@ -35,8 +35,12 @@ public class IntakeSubsystem extends SubsystemBase {
     IntakeMotor.set(IntakeConstants.IntakeSpeed*Direction);
    
   }
-
-
+  public void spinPusher(){
+    PusherMotor.set(IntakeConstants.PusherSpeed);
+  }
+  public void stopPusher(){
+    PusherMotor.stopMotor();
+  }
 
     public void intakeActive(){
     IntakeMotor.set(Constants.IntakeConstants.IntakeSpeed); //run motor at set %

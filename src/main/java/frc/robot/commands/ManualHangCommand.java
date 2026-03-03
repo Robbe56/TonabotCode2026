@@ -48,7 +48,7 @@ public class ManualHangCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  hanger.StopClimber();;
+  hanger.StopClimber();
   }
 
   // Returns true when the command should end.

@@ -2,64 +2,56 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.AutoMode;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
+package frc.robot.commands.Automode;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
 
 
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class AutoHang extends Command {
-
+  /** Creates a new AutoHang. */
   public final HangSubsystem hanger;
   public final Timer timer;
-  
-
-  /** Creates a new ManualShootCommand. */
-  public AutoHang(HangSubsystem m_hang) {
+  public AutoHang(HangSubsystem m_hanger) {
     // Use addRequirements() here to declare subsystem dependencies.
-    hanger = m_hang;
-    timer = new Timer();
-    
-    
-
+    hanger = m_hanger;
     addRequirements(hanger);
+     timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  
+  @Override
   public void execute() {
-     if (timer.get() <1){//else
-      hanger.AutoClimber(-1);//up
+    if (timer.get() <1){//up
+      hanger.ClimberManualControl(Constants.HangConstants.HangSpeed);
     }
-    else if ((timer.get()<3)) {//down
-      hanger.AutoClimber(1);
+
+    else if (timer.get()>3) {//down
+    hanger.ClimberManualControl(-Constants.HangConstants.HangSpeed);
     }
-    else {hanger.AutoClimber(0);}
 
-
+    else hanger.StopClimber();
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    timer.reset();
-    hanger.AutoClimber(0);
+    hanger.StopClimber();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get()>Constants.HangConstants.Hangtime;
+    return timer.get()<4;
   }
 }

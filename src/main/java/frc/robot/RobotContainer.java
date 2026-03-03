@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
 import frc.robot.commands.ManualHangCommand;
@@ -51,15 +50,13 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
-    //private final PushBallCommand pushBall;
 
 
     public RobotContainer() {
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
-        manualHang = new ManualHangCommand(hang, operatorXbox);
-        //pushBall = new PushBallCommand(intake, operatorXbox);
-
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
+        manualHang = new ManualHangCommand(hang, operatorXbox);
+        
         configureBindings();
        
     }
@@ -73,9 +70,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-driverXbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-driverXbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-driverXbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(Constants.DriveConstants.driveSlowFActor*-driverXbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -107,7 +104,6 @@ public class RobotContainer {
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-      
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
