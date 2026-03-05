@@ -9,12 +9,14 @@ package frc.robot;
 public final class Constants {
 
     public static final class DriveConstants{
-        public static final double driveSlowFActor = 0.4; //slow down percentage
+        public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
+        public static final double maxDriveSpeed = 3.0; //use this for max speed in m/s
+    
     }
         
     public static final class IntakeConstants{
         public static final int intakeMotorID = 23;
-        public static final double IntakeSpeed = 0.5; //set default Intake Speed
+        public static final double IntakeSpeed = 0.9; //set default Intake Speed
         public static final double PusherSpeed = 0.5; //set default Pusher Speed
     }
     public static final class ShooterConstants{
