@@ -25,8 +25,8 @@ import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
 import frc.robot.commands.ManualHangCommand;
 
-import frc.robot.commands.Automode.AutoHang;
-import frc.robot.commands.Automode.PrepHang;
+import frc.robot.commands.AutoMode.AutoHang;
+import frc.robot.commands.AutoMode.PrepHang;
 
 
 import frc.robot.generated.TunerConstants;

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Automode;
+package frc.robot.commands.AutoMode;
 import frc.robot.subsystems.HangSubsystem;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Timer;
