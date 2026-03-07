@@ -15,6 +15,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import frc.robot.Constants;
 import frc.robot.Constants.HangConstants;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,35 +38,33 @@ public class HangSubsystem extends SubsystemBase {
     BottomSwitch = new DigitalInput(HangConstants.BottomLimit_SwitchIO);
 
     HangController = HangMotor.getClosedLoopController();
+
+    
+
     
   
-    //set IdleMode for Hang
+    //set IdleMode for Han
     HangMotorConfig.idleMode(IdleMode.kBrake);
     HangMotor.configure(HangMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     hangEncoder = HangMotor.getEncoder(); //get encoder value from NEO
 
   }
-  public void MoveHanger(double Position) {
-    HangController.setSetpoint(Position, ControlType.kPosition);
-  }
-  public void ManualHang(double Direction){
-    if ((Direction == 1)&& (BottomSwitch.get() == false)){
-      HangMotor.stopMotor();
-    }
-    else {
-      HangMotor.set(-HangConstants.HangSpeed*Direction);
-    }}
-
+ 
+  
   public void ClimberManualControl(double climberCommandSpeed){
      if(climberCommandSpeed < 0 && BottomSwitch.get() == false){ //dont move down if pushing lower limit switch
       HangMotor.stopMotor();
     }
-    else if(climberCommandSpeed > 0 && hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
+else if(climberCommandSpeed > 0 && hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
       HangMotor.stopMotor();
     }
-    else{
-      HangMotor.set(climberCommandSpeed);
+    else {
+      HangMotor.set(-HangConstants.HangSpeed*climberCommandSpeed);
     }
+
+    
+
+
 
     if (BottomSwitch.get() == false){
       HangMotor.getEncoder().setPosition(0); //reset encoder if climber goes to bottom
