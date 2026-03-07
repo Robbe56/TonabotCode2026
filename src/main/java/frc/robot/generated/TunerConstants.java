@@ -1,6 +1,7 @@
 package frc.robot.generated;
 
 import static edu.wpi.first.units.Units.*;
+import frc.robot.Constants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.*;
@@ -74,13 +75,12 @@ public class TunerConstants {
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(5.12);
-
+    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(Constants.DriveConstants.maxDriveSpeed); //was 5.12
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
     private static final double kCoupleRatio = 3.857142857142857;
 
-    private static final double kDriveGearRatio = 6.026785714285714;
+    private static final double kDriveGearRatio = 7.03125; //was 6.026785714285714 for R2 gearing, now R1
     private static final double kSteerGearRatio = 26.09090909090909;
     private static final Distance kWheelRadius = Inches.of(2);
 

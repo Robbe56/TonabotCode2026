@@ -76,7 +76,7 @@ ShooterMotorConfig.closedLoop
 .d(0.0000)
 .outputRange(0, 3000);
 
-ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
 ShooterMotorConfig.idleMode(IdleMode.kCoast);
 SpinnerConfig.idleMode(IdleMode.kCoast);
@@ -111,12 +111,17 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
   public void stopShooter(){
     ShooterMotor.stopMotor();
   }
+
 //8269 is one rotation of the turret, 6201 is 270 degrees
   public void spinTurret(double turretCommandSpeed){
     if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
+      //turretController.setSetpoint(-turrentEncoder.getPosition()-431, ControlType.kPosition);
     }
     else if (turretCommandSpeed > 0 && turrentEncoder.getPosition() > Constants.ShooterConstants.turretEnd){
+      turretMotor.stopMotor();
+    }
+    else if(turretCommandSpeed < 0.1 && turretCommandSpeed > -0.1){
       turretMotor.stopMotor();
     }
     else turretMotor.set(turretCommandSpeed);

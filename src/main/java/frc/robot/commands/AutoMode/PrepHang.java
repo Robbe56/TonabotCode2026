@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutoHang extends Command {
+public class PrepHang extends Command {
   /** Creates a new AutoHang. */
   public final HangSubsystem hanger;
   public final Timer timer;
-  public AutoHang(HangSubsystem m_hanger) {
+  public PrepHang(HangSubsystem m_hanger) {
     // Use addRequirements() here to declare subsystem dependencies.
     hanger = m_hanger;
     addRequirements(hanger);
@@ -32,8 +32,8 @@ timer.reset();
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  if (hanger.GetBottomLimitSwitch()){
-   hanger.AutoClimber(-Constants.HangConstants.HangSpeed);
+  if (hanger.GetClimberEncoderPosition()<Constants.HangConstants.upLimit){
+   hanger.AutoClimber(Constants.HangConstants.HangSpeed);
   }
   else hanger.StopClimber();
    }
@@ -48,7 +48,7 @@ timer.reset();
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return hanger.GetBottomLimitSwitch();
+    return (hanger.GetClimberEncoderPosition()<Constants.HangConstants.upLimit);
   }
 }
 
