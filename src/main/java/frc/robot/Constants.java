@@ -43,4 +43,9 @@ public final class Constants {
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom
     }
+    public static final class AutoConstants{
+        public static final double autoShooterSpeed = 1800;
+        public static final double shooterDelay = 2;
+        public static final double doneShooting = 8;
+    }
 }
