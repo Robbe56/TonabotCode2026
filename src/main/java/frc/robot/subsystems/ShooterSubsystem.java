@@ -37,6 +37,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
   SparkMaxConfig SpinnerConfig = new SparkMaxConfig();
+  SparkMaxConfig TurrentConfig = new SparkMaxConfig();
 
   SlewRateLimiter SpinnerRate;
  
@@ -66,18 +67,21 @@ ShooterMotorConfig.closedLoop
 .d(0.0000)
 .outputRange(0, 3000);
 
-ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
+ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 ShooterMotorConfig.idleMode(IdleMode.kCoast);
-
 SpinnerConfig.idleMode(IdleMode.kCoast);
+TurrentConfig.idleMode(IdleMode.kBrake);
+
 
 SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
 
+shooterEncoder.setPosition(0); //initialize shooter encoder at zero when starting
+
   }
   public void spinShooter(double ShooterSpeed) {
-    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
-   
+    ShooterController.setSetpoint(ShooterSpeed, ControlType.kMAXMotionVelocityControl);
+ 
   }
 
     public void FeedBalls(){

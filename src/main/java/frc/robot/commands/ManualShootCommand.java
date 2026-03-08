@@ -34,9 +34,9 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(1500);
+      shooter.spinShooter(2200);
        }
-    else shooter.spinShooter(0);
+    else shooter.stopShooter();;
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
@@ -48,6 +48,7 @@ public class ManualShootCommand extends Command {
       shooter.stopConveyor();
       shooter.stopHopper();
     }
+
 
   shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
 

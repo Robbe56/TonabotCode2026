@@ -16,9 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
+import frc.robot.commands.DriveOverBump;
 import frc.robot.commands.ManualHangCommand;
 import frc.robot.commands.PushBallCommand;
-
+import frc.robot.commands.ReturnOverBump;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.HangSubsystem;
 
 public class RobotContainer {
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -39,8 +40,8 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-     public static final CommandXboxController driverXbox = new CommandXboxController(0);
-  public static final CommandXboxController operatorXbox = new CommandXboxController(1);
+    public static final CommandXboxController driverXbox = new CommandXboxController(0);
+    public static final CommandXboxController operatorXbox = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -50,12 +51,16 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
+    private final DriveOverBump driveOverBump;
+    private final ReturnOverBump returnOverBump;
 
 
     public RobotContainer() {
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
+        driveOverBump = new DriveOverBump(drivetrain, driverXbox);
+        returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
         
         configureBindings();
        
@@ -103,6 +108,10 @@ public class RobotContainer {
 
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        //other commands mapped to buttons
+        driverXbox.y().onTrue(driveOverBump);
+        driverXbox.a().onTrue(returnOverBump);
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
