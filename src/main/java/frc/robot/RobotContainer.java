@@ -6,6 +6,11 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -32,6 +37,7 @@ import frc.robot.commands.AutoMode.PrepHang;
 
 import frc.robot.commands.PushBallCommand;
 import frc.robot.commands.ReturnOverBump;
+import frc.robot.commands.AutoMode.AutomodeShootBalls;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -70,6 +76,11 @@ public class RobotContainer {
 
 
     public RobotContainer() {
+        //automode pathplanner commands
+        NamedCommands.registerCommand("Shoot 8 Balls", new AutomodeShootBalls(shooter));
+          
+
+        //teleop commands
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
