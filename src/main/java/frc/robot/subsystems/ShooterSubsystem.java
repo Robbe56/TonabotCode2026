@@ -3,20 +3,19 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -38,17 +37,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
   SparkMaxConfig SpinnerConfig = new SparkMaxConfig();
+  SparkMaxConfig TurrentConfig = new SparkMaxConfig();
 
   SlewRateLimiter SpinnerRate;
-
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tid = table.getEntry("tid");
-  NetworkTableEntry tx = table.getEntry("tx");
-  NetworkTableEntry ty = table.getEntry("ty");
-  NetworkTableEntry ta = table.getEntry("ta");
-
-
-
  
 
   public ShooterSubsystem() {
@@ -76,17 +67,21 @@ ShooterMotorConfig.closedLoop
 .d(0.0000)
 .outputRange(0, 3000);
 
-ShooterMotor.configure(ShooterMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kPersistParameters);
 
+ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 ShooterMotorConfig.idleMode(IdleMode.kCoast);
 SpinnerConfig.idleMode(IdleMode.kCoast);
+TurrentConfig.idleMode(IdleMode.kBrake);
+
 
 SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
 
+shooterEncoder.setPosition(0); //initialize shooter encoder at zero when starting
+
   }
   public void spinShooter(double ShooterSpeed) {
-    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
-   
+    ShooterController.setSetpoint(ShooterSpeed, ControlType.kMAXMotionVelocityControl);
+ 
   }
 
     public void FeedBalls(){
@@ -112,7 +107,6 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
     ShooterMotor.stopMotor();
   }
 
-//8269 is one rotation of the turret, 6201 is 270 degrees
   public void spinTurret(double turretCommandSpeed){
     if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
@@ -131,13 +125,6 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
     turretMotor.getEncoder().setPosition(0); //reset turret encoder if correct buttons are pressed
   }
 
-  
-  public double TrackHub(){
-    return tx.getDouble(0.0);
-  }
-
-
-
 
   @Override
   public void periodic() {
@@ -145,9 +132,5 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
     
-       SmartDashboard.putNumber("LimeLight X Value", tx.getDouble(0.0));
-    SmartDashboard.putNumber("LimeLight Y Value", ty.getDouble(0.0));
-    SmartDashboard.putNumber("LimeLight Target Area", ta.getDouble(0.0));
-    SmartDashboard.putNumber("Hub AprilTag ID", tid.getDouble(0.0));
   }
 }

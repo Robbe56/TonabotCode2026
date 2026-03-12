@@ -26,7 +26,6 @@ public class HangSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   private SparkMax HangMotor;
   private SparkClosedLoopController HangController;
- 
 
   DigitalInput BottomSwitch;
   RelativeEncoder hangEncoder;
@@ -40,12 +39,11 @@ public class HangSubsystem extends SubsystemBase {
 
     HangController = HangMotor.getClosedLoopController();
 
-      NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    NetworkTable table = inst.getTable("hi");
+    
 
     
   
-    //set IdleMode for Hang
+    //set IdleMode for Han
     HangMotorConfig.idleMode(IdleMode.kBrake);
     HangMotor.configure(HangMotorConfig,ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     hangEncoder = HangMotor.getEncoder(); //get encoder value from NEO
@@ -57,12 +55,16 @@ public class HangSubsystem extends SubsystemBase {
      if(climberCommandSpeed < 0 && BottomSwitch.get() == false){ //dont move down if pushing lower limit switch
       HangMotor.stopMotor();
     }
-    else if(climberCommandSpeed > 0 && hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
+else if(climberCommandSpeed > 0 && hangEncoder.getPosition() > Constants.HangConstants.upLimit){//dont move up if encoder says youre at the top
       HangMotor.stopMotor();
     }
-    else{
-      HangMotor.set(climberCommandSpeed);
+    else {
+      HangMotor.set(-HangConstants.HangSpeed*climberCommandSpeed);
     }
+
+    
+
+
 
     if (BottomSwitch.get() == false){
       HangMotor.getEncoder().setPosition(0); //reset encoder if climber goes to bottom

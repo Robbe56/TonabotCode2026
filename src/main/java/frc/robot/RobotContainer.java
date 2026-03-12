@@ -23,12 +23,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
+import frc.robot.commands.DriveOverBump;
 import frc.robot.commands.ManualHangCommand;
 
 import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.PrepHang;
 
 
+import frc.robot.commands.PushBallCommand;
+import frc.robot.commands.ReturnOverBump;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -49,8 +52,8 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-     public static final CommandXboxController driverXbox = new CommandXboxController(0);
-  public static final CommandXboxController operatorXbox = new CommandXboxController(1);
+    public static final CommandXboxController driverXbox = new CommandXboxController(0);
+    public static final CommandXboxController operatorXbox = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -60,6 +63,8 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
+    private final DriveOverBump driveOverBump;
+    private final ReturnOverBump returnOverBump;
 
     private final SendableChooser<Command> autoChooser;
 
@@ -74,6 +79,9 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
+        driveOverBump = new DriveOverBump(drivetrain, driverXbox);
+        returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
+        
         configureBindings();
 
         // Warmup PathPlanner to avoid Java pauses
@@ -126,6 +134,10 @@ public class RobotContainer {
 
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        //other commands mapped to buttons
+        driverXbox.y().onTrue(driveOverBump);
+        driverXbox.a().onTrue(returnOverBump);
 
 
         drivetrain.registerTelemetry(logger::telemeterize);

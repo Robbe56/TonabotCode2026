@@ -10,12 +10,15 @@ public final class Constants {
 
     public static final class DriveConstants{
         public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
-        public static final double maxDriveSpeed = 3.0; //use this for max speed in m/s
+        public static final double maxDriveSpeed = 1; //use this for max speed in m/s
+        public static final double BumpKp = 0.06;
+        public static final double BumpDriveSpeed = 0.2;
+    
     }
         
     public static final class IntakeConstants{
         public static final int intakeMotorID = 23;
-        public static final double IntakeSpeed = 0.9; //set default Intake Speed
+        public static final double IntakeSpeed = 1; //set default Intake Speed
         public static final double PusherSpeed = 0.5; //set default Pusher Speed
     }
     public static final class ShooterConstants{
@@ -23,7 +26,7 @@ public final class Constants {
         public static final int conveyorMotorID = 25;
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
-        public static final double spinnerSpeed = -0.4; //speed for spinner plate with holes
+        public static final double spinnerSpeed = -0.55; //speed for spinner plate with holes
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
@@ -39,5 +42,10 @@ public final class Constants {
         
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom
+    }
+    public static final class AutoConstants{
+        public static final double autoShooterSpeed = 1800;
+        public static final double shooterDelay = 2;
+        public static final double doneShooting = 8;
     }
 }

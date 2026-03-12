@@ -8,6 +8,7 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -35,9 +36,9 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(1500);
+      shooter.spinShooter(2200);
        }
-    else shooter.spinShooter(0);
+    else shooter.stopShooter();;
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
