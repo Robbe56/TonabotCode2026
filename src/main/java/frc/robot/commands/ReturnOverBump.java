@@ -49,23 +49,23 @@ public class ReturnOverBump extends Command {
 
     //figure out which angle is closest and turn to it
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -135;
+      angleTarget = -45;
       }
-      else angleTarget = 135;
+      else angleTarget = 45;
 
-    robotSpeeds.omegaRadiansPerSecond = angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()*Constants.DriveConstants.BumpKp;
+    robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 
     if (Math.abs(angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()) > 5){
       robotSpeeds.vxMetersPerSecond = 0;
       robotSpeeds.vyMetersPerSecond = 0;
     }
     else if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      robotSpeeds.vxMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
       robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
     }
     else {
       robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
-      robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
     }
 
   //send these values to the robot motors

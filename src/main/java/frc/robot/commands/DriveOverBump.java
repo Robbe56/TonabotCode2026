@@ -7,7 +7,6 @@ package frc.robot.commands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
@@ -54,7 +53,7 @@ public class DriveOverBump extends Command {
       }
       else angleTarget = 135;
 
-    robotSpeeds.omegaRadiansPerSecond = angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()*Constants.DriveConstants.BumpKp;
+    robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 
     if (Math.abs(angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()) > 5){
       robotSpeeds.vxMetersPerSecond = 0;
@@ -62,10 +61,10 @@ public class DriveOverBump extends Command {
     }
     else if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
       robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
-      robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
     }
     else {
-      robotSpeeds.vxMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
       robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
     }
 

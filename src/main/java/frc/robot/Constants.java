@@ -11,7 +11,7 @@ public final class Constants {
     public static final class DriveConstants{
         public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
         public static final double maxDriveSpeed = 1; //use this for max speed in m/s
-        public static final double BumpKp = -0.0000000001;
+        public static final double BumpKp = 0.03;
         public static final double BumpDriveSpeed = 0.2;
     
     }
