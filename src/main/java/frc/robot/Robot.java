@@ -4,28 +4,15 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.HootAutoReplay;
 
-
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.SparkLowLevel;
-
-
-
-
-
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-
-    
-
-   
-
     
 
     private final RobotContainer m_robotContainer;
@@ -36,7 +23,11 @@ public class Robot extends TimedRobot {
     
       
     /* log and replay timestamp and joystick data */
+    private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
+        .withTimestampReplay()
+        .withJoystickReplay();
   
+    private final boolean kUseLimelight = false;
 
     public Robot() {
         m_robotContainer = new RobotContainer();
@@ -46,8 +37,20 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        
+        m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run(); 
+
+            if (kUseLimelight) {
+            var driveState = m_robotContainer.drivetrain.getState();
+            double headingDeg = driveState.Pose.getRotation().getDegrees();
+            double omegaRps = Units.radiansToRotations(driveState.Speeds.omegaRadiansPerSecond);
+
+            LimelightHelpers.SetRobotOrientation("back_limelight", headingDeg, 0, 0, 0, 0, 0);
+            var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("back_limelight");
+            if (llMeasurement != null && llMeasurement.tagCount > 0 && Math.abs(omegaRps) < 2.0) {
+                m_robotContainer.drivetrain.addVisionMeasurement(llMeasurement.pose, llMeasurement.timestampSeconds);
+            }
+        }
     }
 
     @Override

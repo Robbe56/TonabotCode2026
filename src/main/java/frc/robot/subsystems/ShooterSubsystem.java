@@ -15,6 +15,9 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,6 +43,13 @@ public class ShooterSubsystem extends SubsystemBase {
   SparkMaxConfig TurrentConfig = new SparkMaxConfig();
 
   SlewRateLimiter SpinnerRate;
+
+  //Limelight
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTableEntry tid = table.getEntry("tid");
+  NetworkTableEntry tx = table.getEntry("tx");
+  NetworkTableEntry ty = table.getEntry("ty");
+  NetworkTableEntry ta = table.getEntry("ta");
  
 
   public ShooterSubsystem() {
@@ -79,6 +89,7 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
 shooterEncoder.setPosition(0); //initialize shooter encoder at zero when starting
 
   }
+
   public void spinShooter(double ShooterSpeed) {
     ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
  
@@ -107,6 +118,10 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
     ShooterMotor.stopMotor();
   }
 
+  public void stopTurret(){
+    turretMotor.stopMotor();
+  }
+
   public void spinTurret(double turretCommandSpeed){
     if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
@@ -114,7 +129,7 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
     else if (turretCommandSpeed > 0 && turrentEncoder.getPosition() > Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
     }
-    else if(turretCommandSpeed < 0.1 && turretCommandSpeed > -0.1){
+    else if(turretCommandSpeed < 0.05 && turretCommandSpeed > -0.05){
       turretMotor.stopMotor();
     }
     else turretMotor.set(turretCommandSpeed);
@@ -124,12 +139,33 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
     turretMotor.getEncoder().setPosition(0); //reset turret encoder if correct buttons are pressed
   }
 
+  public double TrackHubX(){
+    return tx.getDouble(0);
+  }
+
+  public double TrackHubY(){
+    return ty.getDouble(0);
+  }
+
+  public double TrackHubTagArea(){
+    return ta.getDouble(0);
+  }
+
+  public double HubTagID(){
+    return tid.getDouble(0);
+  }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
+
+    SmartDashboard.putNumber("Hub Tag X Value", tx.getDouble(0));
+    SmartDashboard.putNumber("Hub Tag Y Value", ty.getDouble(0));
+    SmartDashboard.putNumber("Hub Tag Area", ta.getDouble(0));
+    SmartDashboard.putNumber("Hub Tag ID Number", tid.getDouble(0));
     
   }
 }
