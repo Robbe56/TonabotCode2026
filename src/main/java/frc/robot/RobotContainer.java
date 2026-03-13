@@ -14,14 +14,11 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-<<<<<<< HEAD
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
-=======
 import edu.wpi.first.math.filter.SlewRateLimiter;
->>>>>>> 8271c8e3a99519f4e4ecbe76efd3980404f9886a
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +36,7 @@ import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.PrepHang;
 
 
-import frc.robot.commands.PushBallCommand;
+
 import frc.robot.commands.ReturnOverBump;
 import frc.robot.commands.AutoMode.AutomodeShootBalls;
 import frc.robot.generated.TunerConstants;
@@ -50,7 +47,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.HangSubsystem;
 
 public class RobotContainer {
-    private final SlewRateLimiter joystickLimiter = new SlewRateLimiter(2);
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -117,9 +113,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((driverXbox.getLeftY()) * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY((driverXbox.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate((-driverXbox.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(Constants.DriveConstants.driveSlowFActor*-driverXbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
