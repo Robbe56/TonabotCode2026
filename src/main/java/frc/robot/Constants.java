@@ -11,7 +11,7 @@ public final class Constants {
     public static final class DriveConstants{
         public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
         public static final double maxDriveSpeed = 1; //use this for max speed in m/s
-        public static final double BumpKp = 0.06;
+        public static final double BumpKp = 0.03;
         public static final double BumpDriveSpeed = 0.2;
     
     }
@@ -30,9 +30,12 @@ public final class Constants {
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
+        public static final double ShootSlope = 0.05; //slope for shooter speed curve
+        public static final double ShootIntercept = 10; //y-intercept for shooter speed curve
 
         public static final double turretEnd = 50; //limit for how far turret can rotate
         public static final double SlowTurret = 0.2;
+        public static final double turretKp = 0.01;
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;

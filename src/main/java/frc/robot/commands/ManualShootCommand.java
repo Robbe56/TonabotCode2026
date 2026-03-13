@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
@@ -36,9 +37,12 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(2200);
+      shooter.spinShooter(9000);
+      //shooter.spinShooter(SmartDashboard.getNumber("Shooter Manual Speed", 0));
+      //shooter.spinShooter((shooter.TrackHubY()-Constants.ShooterConstants.ShootIntercept)/Constants.ShooterConstants.ShootSlope);
+       
        }
-    else shooter.stopShooter();;
+    else shooter.stopShooter();
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
@@ -51,7 +55,16 @@ public class ManualShootCommand extends Command {
       shooter.stopHopper();
     }
 
-  shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
+  //turret commands
+  if (operatorController.getHID().getXButton()){
+    if (shooter.HubTagID() == -1){
+      shooter.stopTurret();
+    }
+    else {
+      shooter.spinTurret(shooter.TrackHubX()*Constants.ShooterConstants.turretKp);
+    }
+  }
+  else shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
 
   if (operatorController.getHID().getStartButton() && operatorController.getHID().getBackButton()){ //if pressing both start and back at the same time reset turret encoder
     shooter.ResetTurretEncoder();
