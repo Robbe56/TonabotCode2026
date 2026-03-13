@@ -62,10 +62,10 @@ public class ShooterSubsystem extends SubsystemBase {
   
 //set PID gains for shooter
 ShooterMotorConfig.closedLoop
-.p(0.001)
-.i(0)
+.p(0.00027)
+.i(0.00000)
 .d(0.0000)
-.outputRange(0, 3000);
+.outputRange(0, 10000);
 
 
 ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -80,7 +80,7 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
 
   }
   public void spinShooter(double ShooterSpeed) {
-    ShooterController.setSetpoint(ShooterSpeed, ControlType.kMAXMotionVelocityControl);
+    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
  
   }
 

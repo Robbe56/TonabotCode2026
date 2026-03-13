@@ -7,6 +7,7 @@ package frc.robot.commands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
@@ -49,9 +50,9 @@ public class DriveOverBump extends Command {
 
   //figure out which angle is closest and turn to it
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -45;
+      angleTarget = -135;
       }
-      else angleTarget = 45;
+      else angleTarget = 135;
 
     robotSpeeds.omegaRadiansPerSecond = angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()*Constants.DriveConstants.BumpKp;
 

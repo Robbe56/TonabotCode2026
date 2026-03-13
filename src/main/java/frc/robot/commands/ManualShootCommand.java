@@ -34,9 +34,9 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(2200);
+      shooter.spinShooter(9000);
        }
-    else shooter.stopShooter();;
+    else shooter.stopShooter();
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
