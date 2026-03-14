@@ -37,11 +37,12 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(9000);
-      //shooter.spinShooter(SmartDashboard.getNumber("Shooter Manual Speed", 0));
-      //shooter.spinShooter((shooter.TrackHubY()-Constants.ShooterConstants.ShootIntercept)/Constants.ShooterConstants.ShootSlope);
-       
-       }
+      //shooter.spinShooter(4500);
+      if (shooter.HubTagID() != -1){ //if limelight sees a valid tag, spin at correct speed
+      shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope);
+      }
+      else shooter.spinShooter(5000); //spin at high speed
+      }
     else shooter.stopShooter();
 
     if (operatorController.getHID().getRightBumperButton()){

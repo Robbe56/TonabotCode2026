@@ -13,6 +13,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +28,9 @@ import frc.robot.commands.ManualHangCommand;
 
 import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.PrepHang;
+import frc.robot.commands.PushBallCommand;
+import frc.robot.commands.ReturnOverBump;
+import frc.robot.commands.AutoMode.AutomodeRunIntakeShort;
 import frc.robot.commands.AutoMode.AutomodeShootBalls;
 
 
@@ -41,8 +45,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.HangSubsystem;
 
 public class RobotContainer {
+    private final SlewRateLimiter Xlimit = new SlewRateLimiter(2.5);
+    private final SlewRateLimiter Ylimit = new SlewRateLimiter(2.5);
+    private final SlewRateLimiter Rotlimit = new SlewRateLimiter(4);
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.25).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -69,6 +76,12 @@ public class RobotContainer {
 
 
     public RobotContainer() {
+        //automode pathplanner commands
+        NamedCommands.registerCommand("Shoot 8 Balls", new AutomodeShootBalls(shooter));
+        NamedCommands.registerCommand("Extend Intake", new AutomodeRunIntakeShort(intake));
+          
+
+        //teleop commands
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
@@ -98,9 +111,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(Constants.DriveConstants.driveSlowFActor*driverXbox.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(Constants.DriveConstants.driveSlowFActor*-driverXbox.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX((Xlimit.calculate(driverXbox.getLeftY())) * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY((Ylimit.calculate(driverXbox.getLeftX())) * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate((Rotlimit.calculate(-driverXbox.getRightX())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
