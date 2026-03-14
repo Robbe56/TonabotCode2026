@@ -7,6 +7,8 @@ package frc.robot.commands;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
@@ -48,6 +50,8 @@ public class ReturnOverBump extends Command {
     //if drive back into home zone from neutral zone
 
     //figure out which angle is closest and turn to it
+    //if you are Red alliance, these are the values since straight ahead is -180 degrees (not zero)
+  if (DriverStation.getAlliance().get() == Alliance.Red){
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
       angleTarget = -45;
       }
@@ -60,13 +64,35 @@ public class ReturnOverBump extends Command {
       robotSpeeds.vyMetersPerSecond = 0;
     }
     else if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
+      robotSpeeds.vxMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = 0;
+    }
+    else {
+      robotSpeeds.vxMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = 0;
+    }
+  }
+  else {
+          if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
+      angleTarget = -135;
+      }
+      else angleTarget = 135;
+
+    robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
+
+    if (Math.abs(angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees()) > 5){
+      robotSpeeds.vxMetersPerSecond = 0;
+      robotSpeeds.vyMetersPerSecond = 0;
+    }
+    else if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
       robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
-      robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = 0;
     }
     else {
       robotSpeeds.vxMetersPerSecond = Constants.DriveConstants.BumpDriveSpeed;
-      robotSpeeds.vyMetersPerSecond = -Constants.DriveConstants.BumpDriveSpeed;
+      robotSpeeds.vyMetersPerSecond = 0;
     }
+  }
 
   //send these values to the robot motors
   swerveDrive.setControl(request);

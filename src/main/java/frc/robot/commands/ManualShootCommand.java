@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
@@ -35,9 +34,8 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(9000);
-      //shooter.spinShooter(SmartDashboard.getNumber("Shooter Manual Speed", 0));
-      //shooter.spinShooter((shooter.TrackHubY()-Constants.ShooterConstants.ShootIntercept)/Constants.ShooterConstants.ShootSlope);
+      //shooter.spinShooter(4500);
+      shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope);
        
        }
     else shooter.stopShooter();

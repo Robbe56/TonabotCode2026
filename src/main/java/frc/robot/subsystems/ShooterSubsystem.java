@@ -72,14 +72,14 @@ public class ShooterSubsystem extends SubsystemBase {
   
 //set PID gains for shooter
 ShooterMotorConfig.closedLoop
-.p(0.00027)
+.p(0.0004)
 .i(0.00000)
-.d(0.0000)
+.d(0.0001)
 .outputRange(0, 10000);
 
 
 ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-ShooterMotorConfig.idleMode(IdleMode.kCoast);
+ShooterMotorConfig.idleMode(IdleMode.kBrake);
 SpinnerConfig.idleMode(IdleMode.kCoast);
 TurrentConfig.idleMode(IdleMode.kBrake);
 
