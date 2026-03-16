@@ -53,9 +53,9 @@ public class DriveOverBump extends Command {
   //if you are Red alliance, these are the values since straight ahead is -180 degrees (not zero)
   if (DriverStation.getAlliance().get() == Alliance.Red){
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -135;
+      angleTarget = -175;
       }
-      else angleTarget = 135;
+      else angleTarget = 175;
 
     robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 
@@ -75,9 +75,9 @@ public class DriveOverBump extends Command {
   //Now if Blue alliance since straight forward is a heading of zero degrees
   else{
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -45;
+      angleTarget = -5;
       }
-      else angleTarget = 45;
+      else angleTarget = 5;
 
     robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 

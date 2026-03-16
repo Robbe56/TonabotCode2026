@@ -12,7 +12,7 @@ public final class Constants {
         public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
         public static final double maxDriveSpeed = 1; //use this for max speed in m/s
         public static final double BumpKp = 0.08;
-        public static final double BumpDriveSpeed = 2;
+        public static final double BumpDriveSpeed = 1.6;
     
     }
         
@@ -32,7 +32,7 @@ public final class Constants {
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
         
         public static final double ShootSlope = -77; //slope for shooter speed curve
-        public static final double ShootIntercept = 3500; //y-intercept for shooter speed curve
+        public static final double ShootIntercept = 3400; //y-intercept for shooter speed curve
 
         public static final double turretEnd = 75; //limit for how far turret can rotate
         public static final double SlowTurret = 0.2;

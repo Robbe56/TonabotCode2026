@@ -36,8 +36,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.HangSubsystem;
 
 public class RobotContainer {
-    private final SlewRateLimiter Xlimit = new SlewRateLimiter(2.5);
-    private final SlewRateLimiter Ylimit = new SlewRateLimiter(2.5);
+    private final SlewRateLimiter Xlimit = new SlewRateLimiter(2);
+    private final SlewRateLimiter Ylimit = new SlewRateLimiter(2);
     private final SlewRateLimiter Rotlimit = new SlewRateLimiter(4);
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
