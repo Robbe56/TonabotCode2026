@@ -125,6 +125,7 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
   public void spinTurret(double turretCommandSpeed){
     if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
+      //turretController.setSetpoint(-turrentEncoder.getPosition()-431, ControlType.kPosition);
     }
     else if (turretCommandSpeed > 0 && turrentEncoder.getPosition() > Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();

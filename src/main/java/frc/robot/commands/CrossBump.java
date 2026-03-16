@@ -4,52 +4,42 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix6.mechanisms.swerve.LegacySwerveRequest.FieldCentric;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.IntakeSubsystem;
-import com.revrobotics.spark.SparkBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.RobotContainer;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class PushBallCommand extends Command {
+public class CrossBump extends Command {
+private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
+  /** Creates a new CrossBump. */
+public final CommandSwerveDrivetrain drivetrain;
 
-  public final IntakeSubsystem intake;
-  public final CommandXboxController operatorController;
-
-  /** Creates a new ManualShootCommand. */
-  public PushBallCommand(IntakeSubsystem Intake, CommandXboxController m_operatorController) {
+  public CrossBump(CommandSwerveDrivetrain m_Drive) {
+    drivetrain = m_Drive;
+    addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
-    intake = Intake;
-    operatorController = m_operatorController;
-    
-
-    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.spinPusher();
+    
+   //drivetrain.setControl(drive.withRotationalRate(2));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-     
-      intake.spinPusher();
-      
-    
-    //else if (operatorController.getHID().getAButton()) {
-    //  intake.spinIntake(-1);
-    //}
-  
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intake.stopPusher();
-  }
+  public void end(boolean interrupted) {}
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

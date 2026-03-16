@@ -4,64 +4,52 @@
 
 package frc.robot.commands.AutoMode;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.HangSubsystem;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.Timer;
+
+
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutomodeShootBalls extends Command {
-  /** Creates a new AutomodeShootBalls. */
-
-  public final ShooterSubsystem shooter;
+public class PrepHang extends Command {
+  /** Creates a new AutoHang. */
+  public final HangSubsystem hanger;
   public final Timer timer;
-
-  public AutomodeShootBalls(ShooterSubsystem m_shooter) {
+  public PrepHang(HangSubsystem m_hanger) {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooter = m_shooter;
-    timer = new Timer();
-
-    addRequirements(shooter);
+    hanger = m_hanger;
+    addRequirements(hanger);
+     timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
+timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.spinShooter(Constants.AutoConstants.autoShooterSpeed);
-  
-  if (timer.get() < Constants.AutoConstants.shooterDelay){
-    shooter.stopConveyor();
-    shooter.stopHopper();
+  if (hanger.GetClimberEncoderPosition()<Constants.HangConstants.upLimit){
+   hanger.AutoClimber(Constants.HangConstants.HangSpeed);
   }
-  else {
-    shooter.FeedBalls();
-  }
-  
+  else hanger.StopClimber();
    }
   
   
-  
-
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
-    shooter.stopConveyor();
-    shooter.stopHopper();
-    timer.stop();
+    hanger.StopClimber();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > Constants.AutoConstants.doneShooting;
+    return (hanger.GetClimberEncoderPosition()<Constants.HangConstants.upLimit);
   }
 }
 
