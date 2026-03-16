@@ -13,6 +13,7 @@ public final class Constants {
         public static final double maxDriveSpeed = 1; //use this for max speed in m/s
         public static final double BumpKp = 0.08;
         public static final double BumpDriveSpeed = 1.6;
+        public static final double HubSpinKp = 0.1;
     
     }
         

@@ -29,6 +29,7 @@ import frc.robot.commands.ManualHangCommand;
 import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.PrepHang;
 import frc.robot.commands.ReturnOverBump;
+import frc.robot.commands.TurnChassisToHub;
 import frc.robot.commands.AutoMode.AutomodeRunIntakeShort;
 import frc.robot.commands.AutoMode.AutomodeShootBalls;
 
@@ -60,7 +61,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
      public static final CommandXboxController driverXbox = new CommandXboxController(0);
-  public static final CommandXboxController operatorXbox = new CommandXboxController(1);
+    public static final CommandXboxController operatorXbox = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
     private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -70,6 +71,7 @@ public class RobotContainer {
     private final ManualShootCommand manualShoot;
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
+    private final TurnChassisToHub turnToHub;
 
     private final SendableChooser<Command> autoChooser;
 
@@ -84,6 +86,7 @@ public class RobotContainer {
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
+        turnToHub = new TurnChassisToHub(drivetrain, shooter, driverXbox);
 
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
@@ -143,6 +146,8 @@ public class RobotContainer {
 
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+
+        driverXbox.b().onTrue(turnToHub);
 
 
         drivetrain.registerTelemetry(logger::telemeterize);
