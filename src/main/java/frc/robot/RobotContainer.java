@@ -24,9 +24,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
+import frc.robot.commands.DriveOverBump;
 import frc.robot.commands.ManualHangCommand;
 
 import frc.robot.commands.AutoMode.AutoHang;
+import frc.robot.commands.AutoMode.AutoIntake;
+import frc.robot.commands.AutoMode.AutoShootAll;
 import frc.robot.commands.AutoMode.PrepHang;
 import frc.robot.commands.ReturnOverBump;
 import frc.robot.commands.TurnChassisToHub;
@@ -49,7 +52,7 @@ public class RobotContainer {
     private final SlewRateLimiter Ylimit = new SlewRateLimiter(2);
     private final SlewRateLimiter Rotlimit = new SlewRateLimiter(4);
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(.5).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -60,7 +63,7 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-     public static final CommandXboxController driverXbox = new CommandXboxController(0);
+    public static final CommandXboxController driverXbox = new CommandXboxController(0);
     public static final CommandXboxController operatorXbox = new CommandXboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
@@ -72,6 +75,8 @@ public class RobotContainer {
     private final ManualIntakeCommand manualIntake;
     private final ManualHangCommand manualHang;
     private final TurnChassisToHub turnToHub;
+    private final DriveOverBump driveOverBump;
+    private final ReturnOverBump returnOverBump;
 
     private final SendableChooser<Command> autoChooser;
 
@@ -80,6 +85,8 @@ public class RobotContainer {
         //automode pathplanner commands
         NamedCommands.registerCommand("Shoot 8 Balls", new AutomodeShootBalls(shooter));
         NamedCommands.registerCommand("Extend Intake", new AutomodeRunIntakeShort(intake));
+        NamedCommands.registerCommand("Run Intake", new AutoIntake(intake));
+        NamedCommands.registerCommand("Shoot All Balls", new AutoShootAll(shooter));
           
 
         //teleop commands
@@ -87,10 +94,13 @@ public class RobotContainer {
         manualIntake = new ManualIntakeCommand(intake, driverXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
         turnToHub = new TurnChassisToHub(drivetrain, shooter, driverXbox);
+        driveOverBump = new DriveOverBump(drivetrain, driverXbox);
+        returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
 
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
         NamedCommands.registerCommand("Shoot", new AutomodeShootBalls(shooter));
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -148,6 +158,8 @@ public class RobotContainer {
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         driverXbox.b().onTrue(turnToHub);
+        driverXbox.y().onTrue(driveOverBump);
+        driverXbox.a().onTrue(returnOverBump);
 
 
         drivetrain.registerTelemetry(logger::telemeterize);

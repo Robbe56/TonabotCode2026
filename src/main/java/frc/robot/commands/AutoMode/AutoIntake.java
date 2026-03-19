@@ -7,21 +7,21 @@ package frc.robot.commands.AutoMode;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutomodeShootBalls extends Command {
+public class AutoIntake extends Command {
   /** Creates a new AutomodeShootBalls. */
 
-  public final ShooterSubsystem shooter;
+  public final IntakeSubsystem intake;
   public final Timer timer;
 
-  public AutomodeShootBalls(ShooterSubsystem m_shooter) {
+  public AutoIntake(IntakeSubsystem m_intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooter = m_shooter;
+    intake = m_intake;
     timer = new Timer();
 
-    addRequirements(shooter);
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -34,36 +34,19 @@ public class AutomodeShootBalls extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope); //run flywheel at correct speed
-    shooter.spinTurret(shooter.TrackHubX()*Constants.ShooterConstants.turretKp); //track hub with turret
-  
-  if (timer.get() < Constants.AutoConstants.shooterDelay){
-    shooter.stopConveyor();
-    shooter.stopHopper();
-  }
-  else {
-    shooter.FeedBalls();
-  }
+    intake.intakeActive();
   
    }
-  
-  
-  
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
-    shooter.stopConveyor();
-    shooter.stopHopper();
-    shooter.stopTurret();
-    timer.stop();
+    intake.intakeRest();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > Constants.AutoConstants.doneShooting;
+    return timer.get() > Constants.AutoConstants.runIntake;
   }
 }
-

@@ -10,16 +10,16 @@ public final class Constants {
 
     public static final class DriveConstants{
         public static final double driveSlowFActor = 1; //slow down percentage, leave at 1 and change max speed in tuner constants
-        public static final double maxDriveSpeed = 1; //use this for max speed in m/s
-        public static final double BumpKp = 0.08;
-        public static final double BumpDriveSpeed = 1.6;
+        public static final double maxDriveSpeed = 5.12; //use this for max speed in m/s
+        public static final double BumpKp = 0.09;
+        public static final double BumpDriveSpeed = 1.8;
         public static final double HubSpinKp = 0.1;
     
     }
         
     public static final class IntakeConstants{
         public static final int intakeMotorID = 23;
-        public static final double IntakeSpeed = 1; //set default Intake Speed
+        public static final double IntakeSpeed = .8; //set default Intake Speed
         public static final double PusherSpeed = 0.5; //set default Pusher Speed
     }
     public static final class ShooterConstants{
@@ -35,15 +35,15 @@ public final class Constants {
         public static final double ShootSlope = -77; //slope for shooter speed curve
         public static final double ShootIntercept = 3400; //y-intercept for shooter speed curve
 
-        public static final double turretEnd = 75; //limit for how far turret can rotate
+        public static final double turretEnd = 50; //limit for how far turret can rotate
         public static final double SlowTurret = 0.2;
         public static final double turretKp = 0.015;
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;
-        public static final double HangSpeed = 1; //set default climber retract Speed
+        public static final double HangSpeed = -1; //set default climber retract Speed
         public static final double ManualHangSpeed = 0.2; //slower speed incase
-        public static final double upLimit = 135; //encoder value when hook is at 30 inches
+        public static final double upLimit = 55; //encoder value when hook is at 30 inches
         
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom
@@ -51,8 +51,10 @@ public final class Constants {
     public static final class AutoConstants{
         public static final double autoShooterSpeed = 1800;
         public static final double shooterDelay = 2;
-        public static final double doneShooting = 8;
+        public static final double doneShooting = 10;
         
         public static final double intakeExtended = 1; //how long to run into to get it out of robot
+        public static final double runIntake = 4; //run intake when getting balls
+    
     }
 }

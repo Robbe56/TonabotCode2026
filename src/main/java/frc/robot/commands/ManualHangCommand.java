@@ -34,11 +34,11 @@ public class ManualHangCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   
   public void execute() {
-     if (operatorController.getHID().getAButton()){//down
+     if (operatorController.getHID().getYButton()){//up
       hanger.ClimberManualControl(-Constants.HangConstants.HangSpeed);
     }
 
-    else if (operatorController.getHID().getYButton()) {//up
+    else if (operatorController.getHID().getAButton()) {//down
     hanger.ClimberManualControl(Constants.HangConstants.HangSpeed);
     }
 

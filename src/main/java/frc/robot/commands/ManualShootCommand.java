@@ -41,8 +41,11 @@ public class ManualShootCommand extends Command {
       if (shooter.HubTagID() != -1){ //if limelight sees a valid tag, spin at correct speed
       shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope);
       }
-      else shooter.spinShooter(5000); //spin at high speed
+      else shooter.spinShooter(6000); //spin at high speed
       }
+    else if (operatorController.getHID().getRightStickButton()) {
+      shooter.spinShooter(9000);
+    }
     else shooter.stopShooter();
 
     if (operatorController.getHID().getRightBumperButton()){

@@ -10,13 +10,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AutomodeShootBalls extends Command {
+public class AutoShootAll extends Command {
   /** Creates a new AutomodeShootBalls. */
 
   public final ShooterSubsystem shooter;
   public final Timer timer;
 
-  public AutomodeShootBalls(ShooterSubsystem m_shooter) {
+  public AutoShootAll(ShooterSubsystem m_shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     shooter = m_shooter;
     timer = new Timer();
@@ -63,7 +63,7 @@ public class AutomodeShootBalls extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > Constants.AutoConstants.doneShooting;
+    return false; //never stops shooting
   }
 }
 
