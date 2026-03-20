@@ -5,34 +5,40 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Straight Back to Shoot"
+                  "pathName": "Left Get Balls"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot 8 Balls"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Extend Intake"
+                  "name": "Run Intake"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Return"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot All Balls"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }

@@ -40,6 +40,11 @@ public class ManualIntakeCommand extends Command {
      }
      else intake.intakeRest();
 
+    if (driverController.getLeftTriggerAxis() > 0.5){
+      intake.SamSaysGoFast = true;
+    }
+    else intake.SamSaysGoFast = false;
+
   }
 
   // Called once the command ends or is interrupted.

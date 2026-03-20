@@ -52,7 +52,7 @@ public class RobotContainer {
     private final SlewRateLimiter Ylimit = new SlewRateLimiter(2);
     private final SlewRateLimiter Rotlimit = new SlewRateLimiter(4);
     private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(1).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+    private double MaxAngularRate = RotationsPerSecond.of(.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -123,8 +123,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((Xlimit.calculate(driverXbox.getLeftY())) * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY((Ylimit.calculate(driverXbox.getLeftX())) * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX((Xlimit.calculate(driverXbox.getLeftY())) * MaxSpeed * intake.driveFast()) // Drive forward with negative Y (forward)
+                    .withVelocityY((Ylimit.calculate(driverXbox.getLeftX())) * MaxSpeed * intake.driveFast()) // Drive left with negative X (left)
                     .withRotationalRate((Rotlimit.calculate(-driverXbox.getRightX())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );

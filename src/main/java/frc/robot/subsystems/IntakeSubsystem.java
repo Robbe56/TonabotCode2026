@@ -19,6 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private SparkMax IntakeMotor;
   private SparkMax PusherMotor;
 
+  public boolean SamSaysGoFast;
+
  
 
   SparkMaxConfig IntakeMotorConfig = new SparkMaxConfig();
@@ -52,6 +54,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intakeRest(){
     IntakeMotor.stopMotor();
+  }
+
+  public double driveFast(){
+    if (SamSaysGoFast == true){
+      return 1.0;
+    }
+    else return Constants.DriveConstants.driveSlowFactor;
   }
 
   @Override
