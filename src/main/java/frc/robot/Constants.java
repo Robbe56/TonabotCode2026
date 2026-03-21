@@ -9,11 +9,12 @@ package frc.robot;
 public final class Constants {
 
     public static final class DriveConstants{
-        public static final double driveSlowFactor = .75; //slow down percentage, leave at 1 and change max speed in tuner constants
+        public static final double driveSlowFactor = .5;
         public static final double maxDriveSpeed = 5.12; //use this for max speed in m/s
         public static final double BumpKp = 0.09;
-        public static final double BumpDriveSpeed = 1.8;
+        public static final double BumpDriveSpeed = 2.0;
         public static final double HubSpinKp = 0.1;
+        public static final double CreepSpeed = 0.2;
     
     }
         
@@ -43,7 +44,7 @@ public final class Constants {
         public static final int hangMotorID = 22;
         public static final double HangSpeed = -1; //set default climber retract Speed
         public static final double ManualHangSpeed = 0.2; //slower speed incase
-        public static final double upLimit = 80; //encoder value when hook is at 30 inches
+        public static final double upLimit = 90; //encoder value when hook is at 30 inches
         
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom

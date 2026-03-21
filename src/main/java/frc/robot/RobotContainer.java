@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.ManualIntakeCommand;
 import frc.robot.commands.ManualShootCommand;
+import frc.robot.commands.CreepSideways;
 import frc.robot.commands.DriveOverBump;
 import frc.robot.commands.ManualHangCommand;
 
@@ -77,6 +78,7 @@ public class RobotContainer {
     private final TurnChassisToHub turnToHub;
     private final DriveOverBump driveOverBump;
     private final ReturnOverBump returnOverBump;
+    private final CreepSideways creep;
 
     private final SendableChooser<Command> autoChooser;
 
@@ -96,6 +98,7 @@ public class RobotContainer {
         turnToHub = new TurnChassisToHub(drivetrain, shooter, driverXbox);
         driveOverBump = new DriveOverBump(drivetrain, driverXbox);
         returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
+        creep = new CreepSideways(drivetrain, driverXbox);
 
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
@@ -157,7 +160,8 @@ public class RobotContainer {
         // Reset the field-centric heading on start button press.
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        driverXbox.b().onTrue(turnToHub);
+        //driverXbox.b().onTrue(turnToHub);
+        driverXbox.b().onTrue(creep);
         driverXbox.y().onTrue(driveOverBump);
         driverXbox.a().onTrue(returnOverBump);
 

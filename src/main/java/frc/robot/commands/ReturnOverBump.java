@@ -53,9 +53,9 @@ public class ReturnOverBump extends Command {
     //if you are Red alliance, these are the values since straight ahead is -180 degrees (not zero)
   if (DriverStation.getAlliance().get() == Alliance.Red){
       if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -10;
+      angleTarget = -15;
       }
-      else angleTarget = 10;
+      else angleTarget = 15;
 
     robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 
@@ -74,9 +74,9 @@ public class ReturnOverBump extends Command {
   }
   else {
           if (swerveDrive.getState().Pose.getRotation().getDegrees() < 0){
-      angleTarget = -170;
+      angleTarget = -165;
       }
-      else angleTarget = 170;
+      else angleTarget = 165;
 
     robotSpeeds.omegaRadiansPerSecond = (angleTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
 

@@ -44,7 +44,7 @@ public class ManualShootCommand extends Command {
       else shooter.spinShooter(6000); //spin at high speed
       }
     else if (operatorController.getHID().getRightStickButton()) {
-      shooter.spinShooter(9000);
+      shooter.spinShooter(10000);
     }
     else shooter.stopShooter();
 
