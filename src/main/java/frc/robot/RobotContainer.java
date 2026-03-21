@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
@@ -31,6 +32,7 @@ import frc.robot.commands.ManualHangCommand;
 
 import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.AutoIntake;
+import frc.robot.commands.AutoMode.AutoPushIntake;
 import frc.robot.commands.AutoMode.AutoShootAll;
 import frc.robot.commands.AutoMode.PrepHang;
 import frc.robot.commands.AutoMode.SequenceShootBalls;
@@ -82,9 +84,13 @@ public class RobotContainer {
     private final CreepSideways creep;
     private final DriveBack driveBack;
     private final Spin spin;
+    private final AutoPushIntake pushintake;
     private final SequenceShootBalls sequenceShoot;
+    private final AutoShootAll shootAll;
 
     private final SequentialCommandGroup driveBackAuto;
+    private final ParallelCommandGroup simplebackAuto;
+
 
     private final SendableChooser<Command> autoChooser;
 
@@ -99,18 +105,22 @@ public class RobotContainer {
 
         //teleop commands
         manualShoot = new ManualShootCommand(shooter, operatorXbox);
-        manualIntake = new ManualIntakeCommand(intake, driverXbox);
+        manualIntake = new ManualIntakeCommand(intake, driverXbox,operatorXbox);
         manualHang = new ManualHangCommand(hang, operatorXbox);
         turnToHub = new TurnChassisToHub(drivetrain, shooter, driverXbox);
         driveOverBump = new DriveOverBump(drivetrain, driverXbox);
         returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
         creep = new CreepSideways(drivetrain, driverXbox);
+        pushintake = new AutoPushIntake(intake);
+        shootAll = new AutoShootAll(shooter);
 
         //Test Automode commands
         driveBack = new DriveBack(drivetrain);
         spin = new Spin(drivetrain);
         sequenceShoot = new SequenceShootBalls(shooter);
-        driveBackAuto = new SequentialCommandGroup(driveBack, spin, sequenceShoot);
+        driveBackAuto = new SequentialCommandGroup(driveBack, spin, shootAll);
+        simplebackAuto = new ParallelCommandGroup(pushintake,driveBackAuto);
+
 
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
@@ -173,7 +183,7 @@ public class RobotContainer {
         driverXbox.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         //driverXbox.b().onTrue(turnToHub);
-        driverXbox.b().onTrue(creep);
+        driverXbox.x().onTrue(creep);
         driverXbox.y().onTrue(driveOverBump);
         driverXbox.a().onTrue(returnOverBump);
 
@@ -184,7 +194,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
-        //return driveBackAuto;
+        //return autoChooser.getSelected();
+        return simplebackAuto;
     }
 }

@@ -12,9 +12,9 @@ public final class Constants {
         public static final double driveSlowFactor = .5;
         public static final double maxDriveSpeed = 5.12; //use this for max speed in m/s
         public static final double BumpKp = 0.09;
-        public static final double BumpDriveSpeed = 2.0;
+        public static final double BumpDriveSpeed = 2.4;
         public static final double HubSpinKp = 0.1;
-        public static final double CreepSpeed = 0.2;
+        public static final double CreepSpeed = -0.2;
     
     }
         
@@ -28,23 +28,28 @@ public final class Constants {
         public static final int conveyorMotorID = 25;
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
-        public static final double spinnerSpeed = -0.2; //speed for spinner plate with holes
+        public static final double spinnerSpeed = -0.4; //speed for spinner plate with holes
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
         
-        public static final double ShootSlope = -100; //slope for shooter speed curve
-        public static final double ShootIntercept = 3600; //y-intercept for shooter speed curve
+        public static final double ShootSlope = -90; //slope for shooter speed curve
+        public static final double ShootIntercept = 3450; //y-intercept for shooter speed curve
+
+        public static final double LongShootSlope = -90; //slope for shooter speed curve from far
+        public static final double LongShootIntercept = 4000; //y-intercept for shooter speed curve from far
+
+        public static final double SwapShootSlopeY = -16; //Max Hub Y before swapping to formula 2
 
         public static final double turretEnd = 50; //limit for how far turret can rotate
         public static final double SlowTurret = 0.2;
-        public static final double turretKp = 0.04;
+        public static final double turretKp = 0.03;
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;
         public static final double HangSpeed = -1; //set default climber retract Speed
         public static final double ManualHangSpeed = 0.2; //slower speed incase
-        public static final double upLimit = 90; //encoder value when hook is at 30 inches
+        public static final double upLimit = 85; //encoder value when hook is at 30 inches
         
         public static final double bottomheight = 0.0;//min height for hang motor
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom

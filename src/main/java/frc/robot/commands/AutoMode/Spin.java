@@ -40,7 +40,7 @@ public class Spin extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    headingTarget = swerveDrive.getState().Pose.getRotation().getDegrees() + 170;
+    headingTarget = swerveDrive.getState().Pose.getRotation().getDegrees() + 180;
   
   }
 
@@ -49,7 +49,7 @@ public class Spin extends Command {
   public void execute() {
     robotSpeeds.vxMetersPerSecond = 0;
     robotSpeeds.vyMetersPerSecond = 0;
-    robotSpeeds.omegaRadiansPerSecond = (headingTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp;
+    robotSpeeds.omegaRadiansPerSecond = (headingTarget - swerveDrive.getState().Pose.getRotation().getDegrees())*Constants.DriveConstants.BumpKp*.35;
 
   
 
@@ -68,6 +68,6 @@ public class Spin extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(headingTarget - swerveDrive.getState().Pose.getRotation().getDegrees()) < 5);
+    return (Math.abs(headingTarget - swerveDrive.getState().Pose.getRotation().getDegrees()) < 10);
   }
 }

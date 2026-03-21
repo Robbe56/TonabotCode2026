@@ -44,6 +44,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   SlewRateLimiter SpinnerRate;
 
+  public double adjust;
+
   //Limelight
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry tid = table.getEntry("tid");

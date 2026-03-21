@@ -44,14 +44,19 @@ public class CreepSideways extends Command {
   @Override
   public void execute() {
 
-  if (driverController.getHID().getBButton() && driverController.getHID().getLeftBumperButton()){
+  if (driverController.getHID().getXButton() && driverController.getHID().getLeftBumperButton()){
     robotSpeeds.vxMetersPerSecond = 0;
     robotSpeeds.vyMetersPerSecond = Constants.DriveConstants.CreepSpeed;
     robotSpeeds.omegaRadiansPerSecond = 0;
   }
-  if (driverController.getHID().getBButton() && driverController.getHID().getRightBumperButton()){
+  else if (driverController.getHID().getXButton() && driverController.getHID().getRightBumperButton()){
     robotSpeeds.vxMetersPerSecond = 0;
     robotSpeeds.vyMetersPerSecond = -Constants.DriveConstants.CreepSpeed;
+    robotSpeeds.omegaRadiansPerSecond = 0;
+  }
+  else {
+    robotSpeeds.vxMetersPerSecond = 0;
+    robotSpeeds.vyMetersPerSecond = 0;
     robotSpeeds.omegaRadiansPerSecond = 0;
   }
 
@@ -66,6 +71,6 @@ public class CreepSideways extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !driverController.getHID().getBButton();
+    return !driverController.getHID().getXButton();
   }
 }

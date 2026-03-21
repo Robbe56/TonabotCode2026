@@ -13,12 +13,14 @@ public class ManualIntakeCommand extends Command {
 
   public final IntakeSubsystem intake;
   public final CommandXboxController driverController;
+  public final CommandXboxController operatorController;
 
   /** Creates a new ManualShootCommand. */
-  public ManualIntakeCommand(IntakeSubsystem m_intake, CommandXboxController m_driverController) {
+  public ManualIntakeCommand(IntakeSubsystem m_intake, CommandXboxController m_driverController, CommandXboxController m_operatorController) {
     // Use addRequirements() here to declare subsystem dependencies.
     intake = m_intake;
     driverController = m_driverController;
+    operatorController = m_operatorController;
     
 
     addRequirements(intake);
@@ -32,10 +34,10 @@ public class ManualIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if (driverController.getHID().getLeftBumperButton()){
+     if ((driverController.getHID().getLeftBumperButton() && !driverController.getHID().getXButton())){
       intake.intakeActive();
      }
-     else if (driverController.getHID().getRightBumperButton()){
+     else if (driverController.getHID().getRightBumperButton() && !driverController.getHID().getXButton()){
       intake.spitOut();
      }
      else intake.intakeRest();
