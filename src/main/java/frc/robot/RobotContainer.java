@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.commands.ManualIntakeCommand;
@@ -32,13 +33,13 @@ import frc.robot.commands.AutoMode.AutoHang;
 import frc.robot.commands.AutoMode.AutoIntake;
 import frc.robot.commands.AutoMode.AutoShootAll;
 import frc.robot.commands.AutoMode.PrepHang;
+import frc.robot.commands.AutoMode.SequenceShootBalls;
+import frc.robot.commands.AutoMode.Spin;
 import frc.robot.commands.ReturnOverBump;
 import frc.robot.commands.TurnChassisToHub;
 import frc.robot.commands.AutoMode.AutomodeRunIntakeShort;
 import frc.robot.commands.AutoMode.AutomodeShootBalls;
-
-
-
+import frc.robot.commands.AutoMode.DriveBack;
 import frc.robot.commands.ReturnOverBump;
 
 import frc.robot.generated.TunerConstants;
@@ -79,6 +80,11 @@ public class RobotContainer {
     private final DriveOverBump driveOverBump;
     private final ReturnOverBump returnOverBump;
     private final CreepSideways creep;
+    private final DriveBack driveBack;
+    private final Spin spin;
+    private final SequenceShootBalls sequenceShoot;
+
+    private final SequentialCommandGroup driveBackAuto;
 
     private final SendableChooser<Command> autoChooser;
 
@@ -99,6 +105,12 @@ public class RobotContainer {
         driveOverBump = new DriveOverBump(drivetrain, driverXbox);
         returnOverBump = new ReturnOverBump(drivetrain, driverXbox);
         creep = new CreepSideways(drivetrain, driverXbox);
+
+        //Test Automode commands
+        driveBack = new DriveBack(drivetrain);
+        spin = new Spin(drivetrain);
+        sequenceShoot = new SequenceShootBalls(shooter);
+        driveBackAuto = new SequentialCommandGroup(driveBack, spin, sequenceShoot);
 
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
@@ -173,5 +185,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
+        //return driveBackAuto;
     }
 }
