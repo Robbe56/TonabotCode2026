@@ -42,6 +42,7 @@ public class AutomodeRunIntakeShort extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.intakeRest();
+    timer.stop();
   }
 
   // Returns true when the command should end.

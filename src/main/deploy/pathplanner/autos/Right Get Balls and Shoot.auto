@@ -24,15 +24,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "Right Return"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Return"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Shoot All Balls"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot All Balls"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
+              }
+            ]
           }
         }
       ]

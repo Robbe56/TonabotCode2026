@@ -16,7 +16,7 @@ public class ManualShootCommand extends Command {
 
   public final ShooterSubsystem shooter;
   public final CommandXboxController operatorController;
-  public double speedAdjust;
+  public double shotSpeedPercentage;
   public boolean isPressed;
 
   /** Creates a new ManualShootCommand. */
@@ -32,7 +32,7 @@ public class ManualShootCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    speedAdjust = 1;
+    shotSpeedPercentage = 1;
     isPressed = false;
   }
 
@@ -40,21 +40,21 @@ public class ManualShootCommand extends Command {
   @Override
   public void execute() {
      if (operatorController.getHID().getLeftBumperButton()){
-      shooter.spinShooter(4500);
+      //shooter.spinShooter(4500);
+      if (operatorController.getHID().getRightStickButton()) {
+      shooter.spinShooter(10000, shotSpeedPercentage);
+      }
       if (shooter.HubTagID() != -1){ //if limelight sees a valid tag, spin at correct speed
-        if (shooter.TrackHubY()>Constants.ShooterConstants.SwapShootSlopeY){
-      shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope);
+        if (shooter.TrackHubY() > Constants.ShooterConstants.SwapShootSlopeY){ //clsoer to hub, use slower speed equation
+        shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope, shotSpeedPercentage);
+        }
+      else{ //if further away from hub, use higher speed equation
+        shooter.spinShooter(Constants.ShooterConstants.LongShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.LongShootSlope, shotSpeedPercentage);
+        }
       }
-      else{
-        shooter.spinShooter(Constants.ShooterConstants.LongShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.LongShootSlope);
+      else shooter.spinShooter(6000, shotSpeedPercentage); //spin at high speed if no tags are seen
       }
-      }
-      else shooter.spinShooter(6000); //spin at high speed
-      }
-    else if (operatorController.getHID().getRightStickButton()) {
-      shooter.spinShooter(10000);
-    }
-    else shooter.stopShooter();
+    else shooter.stopShooter(); //if button not pressed
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
@@ -84,14 +84,14 @@ public class ManualShootCommand extends Command {
   }
 
   if (operatorController.getHID().getStartButtonPressed()){
-    speedAdjust = speedAdjust + 0.05;
+    shotSpeedPercentage = shotSpeedPercentage + 0.05;
   }
 
-  if (operatorController.getHID().getBButtonPressed()){
-    speedAdjust = speedAdjust - 0.05;
+  if (operatorController.getHID().getBackButtonPressed()){
+    shotSpeedPercentage = shotSpeedPercentage - 0.05;
   }
 
-  SmartDashboard.putNumber("Shooter Adjust (%)", speedAdjust * 100);
+
   }
 
 

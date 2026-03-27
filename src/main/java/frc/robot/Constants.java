@@ -58,7 +58,7 @@ public final class Constants {
     }
     public static final class AutoConstants{
         public static final double autoShooterSpeed = 1800;
-        public static final double shooterDelay = 2;
+        public static final double shooterDelay = 1; //wait for wheel to spin up
         public static final double doneShooting = 15;
         
         public static final double intakeExtended = 1; //how long to run into to get it out of robot

@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   SlewRateLimiter SpinnerRate;
 
-  public double adjust;
+  public double SpeedAdjustFactor;
 
   //Limelight
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -98,9 +98,9 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
 
   }
 
-  public void spinShooter(double ShooterSpeed) {
-    ShooterController.setSetpoint(ShooterSpeed, ControlType.kVelocity);
- 
+  public void spinShooter(double ShooterSpeed, double SpeedAdjust) {
+    ShooterController.setSetpoint(ShooterSpeed*SpeedAdjust, ControlType.kVelocity);
+    SpeedAdjustFactor = SpeedAdjust * 100;
   }
 
     public void FeedBalls(){
@@ -167,12 +167,15 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
   }
 
 
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
     SmartDashboard.putNumber("Spinner Plate Speed", spinnerEncoder.getPosition());
+
+    SmartDashboard.putNumber("Shooter Speed Values", SpeedAdjustFactor);
 
     SmartDashboard.putNumber("Hub Tag X Value", tx.getDouble(0));
     SmartDashboard.putNumber("Hub Tag Y Value", ty.getDouble(0));

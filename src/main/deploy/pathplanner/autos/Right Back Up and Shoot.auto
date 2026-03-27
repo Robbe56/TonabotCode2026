@@ -5,28 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right Back to Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot 8 Balls"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "Extend Intake"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Back to Shoot"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot 8 Balls"
           }
         }
       ]

@@ -17,16 +17,35 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Straight Back to Shoot"
+                  "pathName": "Drive to Depot"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot 8 Balls"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot All Balls"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Enter Depot"
+                }
+              }
+            ]
           }
         }
       ]

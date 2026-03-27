@@ -34,7 +34,7 @@ public class AutoShootAll extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope); //run flywheel at correct speed
+    shooter.spinShooter(Constants.ShooterConstants.ShootIntercept + shooter.TrackHubY()*Constants.ShooterConstants.ShootSlope, 1); //run flywheel at correct speed
     shooter.spinTurret(shooter.TrackHubX()*Constants.ShooterConstants.turretKp); //track hub with turret
   
   if (timer.get() < Constants.AutoConstants.shooterDelay){

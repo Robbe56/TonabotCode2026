@@ -34,7 +34,7 @@ public class ManualIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     if ((driverController.getHID().getLeftBumperButton() && !driverController.getHID().getXButton())){
+     if ((driverController.getHID().getLeftBumperButton() && !driverController.getHID().getXButton()) || operatorController.getHID().getRightBumperButton()){
       intake.intakeActive();
      }
      else if (driverController.getHID().getRightBumperButton() && !driverController.getHID().getXButton()){

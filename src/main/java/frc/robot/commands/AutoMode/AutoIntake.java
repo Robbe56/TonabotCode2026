@@ -6,7 +6,6 @@ package frc.robot.commands.AutoMode;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -42,11 +41,12 @@ public class AutoIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.intakeRest();
+    timer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > Constants.AutoConstants.runIntake;
+    return false;
   }
 }
