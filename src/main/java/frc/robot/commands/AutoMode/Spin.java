@@ -63,6 +63,7 @@ public class Spin extends Command {
     robotSpeeds.vxMetersPerSecond = 0;
     robotSpeeds.vyMetersPerSecond = 0;
     robotSpeeds.omegaRadiansPerSecond = 0;
+    swerveDrive.setControl(request);
   }
 
   // Returns true when the command should end.

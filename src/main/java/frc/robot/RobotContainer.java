@@ -125,6 +125,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Hang", new AutoHang(hang));
         NamedCommands.registerCommand("PrepareHang", new PrepHang(hang));
         NamedCommands.registerCommand("Shoot", new AutomodeShootBalls(shooter));
+        NamedCommands.registerCommand("Extend Intake", new AutoPushIntake(intake));
+        NamedCommands.registerCommand("Run Intake", new AutoIntake(intake));
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -148,8 +150,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX((Xlimit.calculate(driverXbox.getLeftY())) * MaxSpeed * intake.driveFast()) // Drive forward with negative Y (forward)
-                    .withVelocityY((Ylimit.calculate(driverXbox.getLeftX())) * MaxSpeed * intake.driveFast()) // Drive left with negative X (left)
+                drive.withVelocityX((Xlimit.calculate(-driverXbox.getLeftY())) * MaxSpeed * intake.driveFast()) // Drive forward with negative Y (forward)
+                    .withVelocityY((Ylimit.calculate(-driverXbox.getLeftX())) * MaxSpeed * intake.driveFast()) // Drive left with negative X (left)
                     .withRotationalRate((Rotlimit.calculate(-driverXbox.getRightX())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -194,7 +196,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        //return autoChooser.getSelected();
-        return simplebackAuto;
+        return autoChooser.getSelected();
+        //return simplebackAuto;
     }
 }

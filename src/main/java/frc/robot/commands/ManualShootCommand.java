@@ -73,7 +73,7 @@ public class ManualShootCommand extends Command {
       shooter.stopTurret();
     }
     else {
-      shooter.spinTurret((shooter.TrackHubX() - 0.5)*Constants.ShooterConstants.turretKp);
+      shooter.spinTurret((shooter.TrackHubX() - 0.2)*Constants.ShooterConstants.turretKp);
     }
   }
   else shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
@@ -91,7 +91,7 @@ public class ManualShootCommand extends Command {
     speedAdjust = speedAdjust - 0.05;
   }
 
-  SmartDashboard.putNumber("Shooter Adjsut (%)", speedAdjust * 100);
+  SmartDashboard.putNumber("Shooter Adjust (%)", speedAdjust * 100);
   }
 
 

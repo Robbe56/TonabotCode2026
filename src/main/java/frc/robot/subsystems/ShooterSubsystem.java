@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -18,7 +17,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,12 +29,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkMax turretMotor;
 
   private SparkClosedLoopController ShooterController;
-  private SparkClosedLoopController spinninerController;
+  private SparkClosedLoopController spinnerController;
   private SparkClosedLoopController conveyorController;
   private SparkClosedLoopController turretController;
   
   RelativeEncoder shooterEncoder;
   RelativeEncoder turrentEncoder;
+  RelativeEncoder spinnerEncoder;
 
   SparkMaxConfig ShooterMotorConfig = new SparkMaxConfig();
   SparkMaxConfig SpinnerConfig = new SparkMaxConfig();
@@ -59,7 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
     ShooterController = ShooterMotor.getClosedLoopController();
 
     spinnerMotor = new SparkMax(Constants.ShooterConstants.spinnerMotorID, MotorType.kBrushless);
-    spinninerController = spinnerMotor.getClosedLoopController();
+    spinnerController = spinnerMotor.getClosedLoopController();
 
     conveyorMotor = new SparkMax(Constants.ShooterConstants.conveyorMotorID, MotorType.kBrushless);
     conveyorController = conveyorMotor.getClosedLoopController();
@@ -69,20 +68,27 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterEncoder = ShooterMotor.getEncoder(); //get encoder value from NEO
     turrentEncoder = turretMotor.getEncoder(); //get encoder value from NEO
-
+    spinnerEncoder = spinnerMotor.getEncoder(); //get encoder value from NEO
 
   
-//set PID gains for shooter
+//set PID gains for shooter and spinner
 ShooterMotorConfig.closedLoop
 .p(0.0004)
 .i(0.00000)
 .d(0.0001)
 .outputRange(0, 10000);
 
+SpinnerConfig.closedLoop
+.p(1)
+.i(0)
+.d(0)
+.outputRange(-1000, 1000);
 
 ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 ShooterMotorConfig.idleMode(IdleMode.kBrake);
-SpinnerConfig.idleMode(IdleMode.kCoast);
+
+SpinnerConfig.closedLoopRampRate(Constants.ShooterConstants.SpinnerRampTime);
+SpinnerConfig.idleMode(IdleMode.kBrake);
 TurrentConfig.idleMode(IdleMode.kBrake);
 
 
@@ -98,12 +104,14 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
   }
 
     public void FeedBalls(){
-    spinnerMotor.set(Constants.ShooterConstants.spinnerSpeed);
+    //spinnerMotor.set(SpinnerRate.calculate(Constants.ShooterConstants.spinnerSpeed));
+    spinnerController.setSetpoint(Constants.ShooterConstants.SpinnerVelocity, ControlType.kVelocity);
     conveyorMotor.set(Constants.ShooterConstants.conveyorSpeed);
   }
 
   public void Unjam(){
-    spinnerMotor.set(-Constants.ShooterConstants.spinnerSpeed);
+    //spinnerMotor.set(SpinnerRate.calculate(Constants.ShooterConstants.spinnerSpeed));
+    spinnerController.setSetpoint(-Constants.ShooterConstants.SpinnerVelocity, ControlType.kVelocity);
     conveyorMotor.set(-Constants.ShooterConstants.conveyorSpeed);
   }
 
@@ -164,6 +172,7 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
+    SmartDashboard.putNumber("Spinner Plate Speed", spinnerEncoder.getPosition());
 
     SmartDashboard.putNumber("Hub Tag X Value", tx.getDouble(0));
     SmartDashboard.putNumber("Hub Tag Y Value", ty.getDouble(0));

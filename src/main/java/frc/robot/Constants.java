@@ -14,7 +14,7 @@ public final class Constants {
         public static final double BumpKp = 0.09;
         public static final double BumpDriveSpeed = 2.4;
         public static final double HubSpinKp = 0.1;
-        public static final double CreepSpeed = -0.2;
+        public static final double CreepSpeed = 0.2;
     
     }
         
@@ -28,7 +28,9 @@ public final class Constants {
         public static final int conveyorMotorID = 25;
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
-        public static final double spinnerSpeed = -0.4; //speed for spinner plate with holes
+        public static final double spinnerSpeed = -.4; //speed for spinner plate with holes in percentage
+        public static final double SpinnerVelocity = -50; //speed in velocity for wood plate
+        public static final double SpinnerRampTime = 0.5; //time in seconds for spinner plate to get to full speed
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
@@ -37,7 +39,7 @@ public final class Constants {
         public static final double ShootIntercept = 3450; //y-intercept for shooter speed curve
 
         public static final double LongShootSlope = -90; //slope for shooter speed curve from far
-        public static final double LongShootIntercept = 4000; //y-intercept for shooter speed curve from far
+        public static final double LongShootIntercept = 3650; //y-intercept for shooter speed curve from far
 
         public static final double SwapShootSlopeY = -16; //Max Hub Y before swapping to formula 2
 
