@@ -29,8 +29,8 @@ public final class Constants {
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
         public static final double spinnerSpeed = -.4; //speed for spinner plate with holes in percentage
-        public static final double SpinnerVelocity = -50; //speed in velocity for wood plate
-        public static final double SpinnerRampTime = 0.5; //time in seconds for spinner plate to get to full speed
+        public static final double SpinnerVelocity = -2500; //speed in velocity for wood plate
+        public static final double SpinnerRampTime = 1; //time in seconds for spinner plate to get to full speed
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
@@ -44,8 +44,9 @@ public final class Constants {
         public static final double SwapShootSlopeY = -16; //Max Hub Y before swapping to formula 2
 
         public static final double turretEnd = 50; //limit for how far turret can rotate
+        public static final double turretEnd2 = -75; //limit for how far turrent can rotate CCW
         public static final double SlowTurret = 0.2;
-        public static final double turretKp = 0.03;
+        public static final double turretKp = 0.01;
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;

@@ -79,14 +79,15 @@ ShooterMotorConfig.closedLoop
 .outputRange(0, 10000);
 
 SpinnerConfig.closedLoop
-.p(1)
+.p(0.0001)
 .i(0)
-.d(0)
-.outputRange(-1000, 1000);
+.d(.01)
+.outputRange(-4000, 4000);
 
 ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 ShooterMotorConfig.idleMode(IdleMode.kBrake);
 
+spinnerMotor.configure(SpinnerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 SpinnerConfig.closedLoopRampRate(Constants.ShooterConstants.SpinnerRampTime);
 SpinnerConfig.idleMode(IdleMode.kBrake);
 TurrentConfig.idleMode(IdleMode.kBrake);
@@ -133,14 +134,14 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
   }
 
   public void spinTurret(double turretCommandSpeed){
-    if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < -Constants.ShooterConstants.turretEnd){
+    if (turretCommandSpeed < 0 && turrentEncoder.getPosition() < Constants.ShooterConstants.turretEnd2){
       turretMotor.stopMotor();
       //turretController.setSetpoint(-turrentEncoder.getPosition()-431, ControlType.kPosition);
     }
     else if (turretCommandSpeed > 0 && turrentEncoder.getPosition() > Constants.ShooterConstants.turretEnd){
       turretMotor.stopMotor();
     }
-    else if(turretCommandSpeed < 0.05 && turretCommandSpeed > -0.05){
+    else if(turretCommandSpeed < 0.04 && turretCommandSpeed > -0.04){
       turretMotor.stopMotor();
     }
     else turretMotor.set(turretCommandSpeed);
@@ -173,7 +174,7 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
     SmartDashboard.putNumber("Turret Encoder", turrentEncoder.getPosition());
-    SmartDashboard.putNumber("Spinner Plate Speed", spinnerEncoder.getPosition());
+    SmartDashboard.putNumber("Spinner Plate Speed", spinnerEncoder.getVelocity());
 
     SmartDashboard.putNumber("Shooter Speed Values", SpeedAdjustFactor);
 

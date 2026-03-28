@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Left Over Bump"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
