@@ -43,8 +43,8 @@ public final class Constants {
 
         public static final double SwapShootSlopeY = -16; //Max Hub Y before swapping to formula 2
 
-        public static final double turretEnd = 50; //limit for how far turret can rotate
-        public static final double turretEnd2 = -75; //limit for how far turrent can rotate CCW
+        public static final double turretEnd = 85; //limit for how far turret can rotate
+        public static final double turretEnd2 = -62; //limit for how far turrent can rotate CCW
         public static final double SlowTurret = 0.2;
         public static final double turretKp = 0.01;
     }
