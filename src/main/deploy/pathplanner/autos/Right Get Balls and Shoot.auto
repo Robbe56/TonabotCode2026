@@ -11,6 +11,25 @@
               {
                 "type": "path",
                 "data": {
+                  "pathName": "Right Over Bump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
                   "pathName": "Right Get Balls"
                 }
               },
@@ -38,6 +57,12 @@
                 "data": {
                   "name": "Run Intake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin Up Shooter"
+                }
               }
             ]
           }
@@ -49,7 +74,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot All Balls"
+                  "name": "Just Shoot"
                 }
               },
               {

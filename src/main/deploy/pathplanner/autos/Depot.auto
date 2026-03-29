@@ -24,9 +24,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot 8 Balls"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -34,15 +40,28 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "Shoot All Balls"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Enter Depot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Leave Depot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Run Intake"
                 }
               }
             ]

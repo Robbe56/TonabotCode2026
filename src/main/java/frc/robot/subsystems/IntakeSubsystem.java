@@ -20,6 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private SparkMax PusherMotor;
 
   public boolean SamSaysGoFast;
+  public boolean SamSaysGoSlow;
 
  
 
@@ -59,6 +60,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public double driveFast(){
     if (SamSaysGoFast == true){
       return 1.0;
+    }
+    else if (SamSaysGoSlow == true){
+      return 0.25;
     }
     else return Constants.DriveConstants.driveSlowFactor;
   }

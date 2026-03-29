@@ -42,10 +42,18 @@ public class ManualIntakeCommand extends Command {
      }
      else intake.intakeRest();
 
-    if (driverController.getLeftTriggerAxis() > 0.5){
+    if (driverController.getRightTriggerAxis() > 0.5){
       intake.SamSaysGoFast = true;
+      intake.SamSaysGoSlow = false;
     }
-    else intake.SamSaysGoFast = false;
+    else if (driverController.getLeftTriggerAxis() > 0.5){
+      intake.SamSaysGoSlow = true;
+      intake.SamSaysGoFast = false;
+    }
+    else {
+      intake.SamSaysGoFast = false;
+      intake.SamSaysGoSlow = false;
+    }
 
   }
 

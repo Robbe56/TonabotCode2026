@@ -37,11 +37,13 @@ import frc.robot.commands.AutoMode.AutoShootAll;
 import frc.robot.commands.AutoMode.PrepHang;
 import frc.robot.commands.AutoMode.SequenceShootBalls;
 import frc.robot.commands.AutoMode.Spin;
+import frc.robot.commands.AutoMode.SpinUpShooter;
 import frc.robot.commands.ReturnOverBump;
 import frc.robot.commands.TurnChassisToHub;
 import frc.robot.commands.AutoMode.AutomodeRunIntakeShort;
 import frc.robot.commands.AutoMode.AutomodeShootBalls;
 import frc.robot.commands.AutoMode.DriveBack;
+import frc.robot.commands.AutoMode.JustShoot;
 import frc.robot.commands.ReturnOverBump;
 
 import frc.robot.generated.TunerConstants;
@@ -101,6 +103,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Extend Intake", new AutomodeRunIntakeShort(intake));
         NamedCommands.registerCommand("Run Intake", new AutoIntake(intake));
         NamedCommands.registerCommand("Shoot All Balls", new AutoShootAll(shooter));
+        NamedCommands.registerCommand("Spin Up Shooter", new SpinUpShooter(shooter));
+        NamedCommands.registerCommand("Just Shoot", new JustShoot(shooter));
           
 
         //teleop commands

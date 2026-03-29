@@ -12,7 +12,7 @@ public final class Constants {
         public static final double driveSlowFactor = .5;
         public static final double maxDriveSpeed = 5.12; //use this for max speed in m/s
         public static final double BumpKp = 0.09;
-        public static final double BumpDriveSpeed = 2.4;
+        public static final double BumpDriveSpeed = -2.4;
         public static final double HubSpinKp = 0.1;
         public static final double CreepSpeed = 0.2;
     
@@ -58,9 +58,10 @@ public final class Constants {
         public static final int BottomLimit_SwitchIO = 1;// LimitSwitch ID for bottom
     }
     public static final class AutoConstants{
-        public static final double autoShooterSpeed = 1800;
+        public static final double autoShooterSpeed = 4000;
+        public static final double turretDelay = 0.1; //wait for turret to target hub
         public static final double shooterDelay = 1; //wait for wheel to spin up
-        public static final double doneShooting = 15;
+        public static final double doneShooting = 14;
         
         public static final double intakeExtended = 1; //how long to run into to get it out of robot
         public static final double runIntake = 4; //run intake when getting balls

@@ -44,6 +44,12 @@
                 "data": {
                   "name": "Run Intake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spin Up Shooter"
+                }
               }
             ]
           }
@@ -55,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot All Balls"
+                  "name": "Just Shoot"
                 }
               },
               {

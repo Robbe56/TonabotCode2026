@@ -69,6 +69,7 @@ public class ManualShootCommand extends Command {
 
   //turret commands
   if (operatorController.getHID().getXButton()){
+    shotSpeedPercentage = 1;
     if (shooter.HubTagID() == -1){
       shooter.stopTurret();
     }
@@ -84,16 +85,13 @@ public class ManualShootCommand extends Command {
   }
 
   if (operatorController.getHID().getStartButtonPressed()){
-    shotSpeedPercentage = shotSpeedPercentage + 0.05;
+    shotSpeedPercentage = shotSpeedPercentage + 0.025;
   }
 
   if (operatorController.getHID().getBackButtonPressed()){
-    shotSpeedPercentage = shotSpeedPercentage - 0.05;
+    shotSpeedPercentage = shotSpeedPercentage - 0.025;
   }
-
-
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
