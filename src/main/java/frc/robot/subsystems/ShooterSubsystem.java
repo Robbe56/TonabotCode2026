@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -45,6 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double SpeedAdjustFactor;
 
+  public boolean isTracking;
+
   //Limelight
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry tid = table.getEntry("tid");
@@ -79,10 +82,10 @@ ShooterMotorConfig.closedLoop
 .outputRange(0, 10000);
 
 SpinnerConfig.closedLoop
-.p(0.0001)
+.p(0.00003)
 .i(0)
-.d(.01)
-.outputRange(-4000, 4000);
+.d(.1)
+.outputRange(-15000, 1000);
 
 ShooterMotor.configure(ShooterMotorConfig,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 ShooterMotorConfig.idleMode(IdleMode.kBrake);
@@ -97,7 +100,8 @@ SpinnerRate = new SlewRateLimiter(Constants.ShooterConstants.SpinRateLimit);
 
 shooterEncoder.setPosition(0); //initialize shooter encoder at zero when starting
 
-  }
+
+}
 
   public void spinShooter(double ShooterSpeed, double SpeedAdjust) {
     ShooterController.setSetpoint(ShooterSpeed*SpeedAdjust, ControlType.kVelocity);
@@ -165,6 +169,13 @@ shooterEncoder.setPosition(0); //initialize shooter encoder at zero when startin
 
   public double HubTagID(){
     return tid.getDouble(0);
+  }
+
+  public double slowDownWhileShooting(){
+    if (isTracking == true){
+      return 0.20; //cut rotational speed of robot to 20% if operator is tracking hub
+    }
+    else return 1;
   }
 
 

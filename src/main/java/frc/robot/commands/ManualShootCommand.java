@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,7 +18,7 @@ public class ManualShootCommand extends Command {
   public final ShooterSubsystem shooter;
   public final CommandXboxController operatorController;
   public double shotSpeedPercentage;
-  public boolean isPressed;
+  public boolean isPressed; 
 
   /** Creates a new ManualShootCommand. */
   public ManualShootCommand(ShooterSubsystem m_shooter, CommandXboxController m_operatorController) {
@@ -58,9 +59,11 @@ public class ManualShootCommand extends Command {
 
     if (operatorController.getHID().getRightBumperButton()){
       shooter.FeedBalls();
+
     }
     else if (operatorController.getHID().getBButton()){
       shooter.Unjam();
+
     }
     else {
       shooter.stopConveyor();
@@ -70,14 +73,22 @@ public class ManualShootCommand extends Command {
   //turret commands
   if (operatorController.getHID().getXButton()){
     shotSpeedPercentage = 1;
+    shooter.isTracking = true;
+
     if (shooter.HubTagID() == -1){
+      shooter.stopTurret();
+    }
+    else if (Math.abs(shooter.TrackHubX() - 0.2) < 0.2){
       shooter.stopTurret();
     }
     else {
       shooter.spinTurret((shooter.TrackHubX() - 0.2)*Constants.ShooterConstants.turretKp);
     }
   }
-  else shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
+  else {
+    shooter.spinTurret(Constants.ShooterConstants.SlowTurret*operatorController.getLeftX()); //manually control turret with left joystick
+    shooter.isTracking = false;
+  }
 
   if (operatorController.getHID().getStartButton() && operatorController.getHID().getBackButton()){ //if pressing both start and back at the same time reset turret encoder
     shooter.ResetTurretEncoder();

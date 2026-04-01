@@ -20,7 +20,7 @@ public final class Constants {
         
     public static final class IntakeConstants{
         public static final int intakeMotorID = 23;
-        public static final double IntakeSpeed = .8; //set default Intake Speed
+        public static final double IntakeSpeed = .85; //set default Intake Speed
         public static final double PusherSpeed = 0.5; //set default Pusher Speed
     }
     public static final class ShooterConstants{
@@ -29,24 +29,24 @@ public final class Constants {
         public static final int turretMotorID = 26;
         public static final int shooterMotorID = 27;
         public static final double spinnerSpeed = -.4; //speed for spinner plate with holes in percentage
-        public static final double SpinnerVelocity = -2500; //speed in velocity for wood plate
-        public static final double SpinnerRampTime = 1; //time in seconds for spinner plate to get to full speed
+        public static final double SpinnerVelocity = -8000; //speed in velocity for wood plate
+        public static final double SpinnerRampTime = 100; //time in seconds for spinner plate to get to full speed
         public static final double SpinRateLimit = .5; //set ramp rate for spinner wheel
         public static final double conveyorSpeed = -1; //vertical conveyor speed
         public static final double ShooterSpeed = 0.5; //set default shooter Speed
         
-        public static final double ShootSlope = -90; //slope for shooter speed curve
-        public static final double ShootIntercept = 3450; //y-intercept for shooter speed curve
+        public static final double ShootSlope = -75; //slope for shooter speed curve
+        public static final double ShootIntercept = 3550; //y-intercept for shooter speed curve
 
-        public static final double LongShootSlope = -90; //slope for shooter speed curve from far
-        public static final double LongShootIntercept = 3650; //y-intercept for shooter speed curve from far
+        public static final double LongShootSlope = -100; //slope for shooter speed curve from far
+        public static final double LongShootIntercept = 3550; //y-intercept for shooter speed curve from far
 
         public static final double SwapShootSlopeY = -16; //Max Hub Y before swapping to formula 2
 
         public static final double turretEnd = 85; //limit for how far turret can rotate
         public static final double turretEnd2 = -62; //limit for how far turrent can rotate CCW
         public static final double SlowTurret = 0.2;
-        public static final double turretKp = 0.01;
+        public static final double turretKp = 0.017;
     }
     public static final class HangConstants{
         public static final int hangMotorID = 22;
@@ -65,6 +65,7 @@ public final class Constants {
         
         public static final double intakeExtended = 1; //how long to run into to get it out of robot
         public static final double runIntake = 4; //run intake when getting balls
+        public static final double UnjamTime = .25;
     
     }
 }

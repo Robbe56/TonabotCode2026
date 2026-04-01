@@ -38,6 +38,7 @@ import frc.robot.commands.AutoMode.PrepHang;
 import frc.robot.commands.AutoMode.SequenceShootBalls;
 import frc.robot.commands.AutoMode.Spin;
 import frc.robot.commands.AutoMode.SpinUpShooter;
+import frc.robot.commands.AutoMode.Unjam;
 import frc.robot.commands.ReturnOverBump;
 import frc.robot.commands.TurnChassisToHub;
 import frc.robot.commands.AutoMode.AutomodeRunIntakeShort;
@@ -105,6 +106,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot All Balls", new AutoShootAll(shooter));
         NamedCommands.registerCommand("Spin Up Shooter", new SpinUpShooter(shooter));
         NamedCommands.registerCommand("Just Shoot", new JustShoot(shooter));
+        NamedCommands.registerCommand("Unjam", new Unjam(shooter));
           
 
         //teleop commands
@@ -156,7 +158,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX((Xlimit.calculate(-driverXbox.getLeftY())) * MaxSpeed * intake.driveFast()) // Drive forward with negative Y (forward)
                     .withVelocityY((Ylimit.calculate(-driverXbox.getLeftX())) * MaxSpeed * intake.driveFast()) // Drive left with negative X (left)
-                    .withRotationalRate((Rotlimit.calculate(-driverXbox.getRightX())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate((Rotlimit.calculate(-driverXbox.getRightX())) * MaxAngularRate * shooter.slowDownWhileShooting()) // Drive counterclockwise with negative X (left)
             )
         );
 
